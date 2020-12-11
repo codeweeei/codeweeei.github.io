@@ -16,8 +16,8 @@ direction: ltr
 nav:
   home: /
   about: /about/
-  articles: /archives/
-  projects: projects_url
+  分类: /categories/
+  标签: tags
 
 
 # Links to your social media accounts.
