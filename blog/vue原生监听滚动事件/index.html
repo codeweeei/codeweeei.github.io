@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="vue 原生监听滚动事件及实现点击回到顶部123456789101112131415161718192021222324252627282930313233&#x2F;&#x2F;添加监听事件mounted() &amp;#123;  window.addEventListener(&amp;#x27;scroll&amp;#x27;,this.handleScroll, true)&amp;#125;,methods: &amp;#123;  &#x2F;&#x2F;监听滚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue原生监听滚动事件">
+<meta property="og:url" content="https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="vue 原生监听滚动事件及实现点击回到顶部123456789101112131415161718192021222324252627282930313233&#x2F;&#x2F;添加监听事件mounted() &amp;#123;  window.addEventListener(&amp;#x27;scroll&amp;#x27;,this.handleScroll, true)&amp;#125;,methods: &amp;#123;  &#x2F;&#x2F;监听滚">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-12T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-12T14:09:38.887Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="vue实战">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>vue原生监听滚动事件</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/git%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/hello-world/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&text=vue原生监听滚动事件"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&is_video=false&description=vue原生监听滚动事件"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue原生监听滚动事件&body=Check out this article: https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&name=vue原生监听滚动事件&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&t=vue原生监听滚动事件"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%8F%8A%E5%AE%9E%E7%8E%B0%E7%82%B9%E5%87%BB%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8"><span class="toc-number">1.</span> <span class="toc-text">vue 原生监听滚动事件及实现点击回到顶部</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vue原生监听滚动事件
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-12T00:00:00.000Z" itemprop="datePublished">2020-12-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/VueV/">VueV</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/vue%E5%AE%9E%E6%88%98/" rel="tag">vue实战</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="vue-原生监听滚动事件及实现点击回到顶部"><a href="#vue-原生监听滚动事件及实现点击回到顶部" class="headerlink" title="vue 原生监听滚动事件及实现点击回到顶部"></a><em>vue 原生监听滚动事件及实现点击回到顶部</em></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加监听事件</span></span><br><span class="line"><span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;scroll&#x27;</span>,<span class="built_in">this</span>.handleScroll, <span class="literal">true</span>)</span><br><span class="line">&#125;,</span><br><span class="line">methods: &#123;</span><br><span class="line">  <span class="comment">//监听滚动事件</span></span><br><span class="line">  <span class="function"><span class="title">handleScroll</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> scrollTop = <span class="built_in">window</span>.pageYOffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop</span><br><span class="line">    <span class="comment">// console.log(scrollTop)</span></span><br><span class="line">    <span class="keyword">if</span>(scrollTop&gt;=<span class="number">188</span>)&#123;</span><br><span class="line">      <span class="comment">//当滚动到超过一定距离后，回到顶部按钮显示（结合v-show）</span></span><br><span class="line">      <span class="built_in">this</span>.showheight=<span class="literal">true</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="built_in">this</span>.showheight=<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//点击回到顶部事件</span></span><br><span class="line">  <span class="function"><span class="title">totopClick</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> top = <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop || <span class="built_in">window</span>.pageYOffset</span><br><span class="line">    <span class="comment">//实现滚动效果，定时滚动,实现动画效果</span></span><br><span class="line">    <span class="keyword">const</span> timeTop = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">document</span>.body.scrollTop = <span class="built_in">document</span>.documentElement.scrollTop = top -= <span class="number">50</span></span><br><span class="line">      <span class="keyword">if</span> (top &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">clearInterval</span>(timeTop)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="number">15</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">//销毁监听滚动</span></span><br><span class="line"><span class="function"><span class="title">destroyed</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="comment">// 离开该页面需要移除这个监听的事件，不然会报错  必须带第三个参数true，否则销毁不成功</span></span><br><span class="line">  <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;scroll&#x27;</span>, <span class="built_in">this</span>.handleScroll, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/vue原生监听滚动事件.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%8F%8A%E5%AE%9E%E7%8E%B0%E7%82%B9%E5%87%BB%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8"><span class="toc-number">1.</span> <span class="toc-text">vue 原生监听滚动事件及实现点击回到顶部</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&text=vue原生监听滚动事件"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&is_video=false&description=vue原生监听滚动事件"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue原生监听滚动事件&body=Check out this article: https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&title=vue原生监听滚动事件"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&name=vue原生监听滚动事件&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/vue%E5%8E%9F%E7%94%9F%E7%9B%91%E5%90%AC%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6/&t=vue原生监听滚动事件"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
