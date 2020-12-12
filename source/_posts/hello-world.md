@@ -2,6 +2,7 @@
 title: npm和cnpm的安装方法和配置
 categories: 前端工具
 tags: [node.js,npm,cnpm]
+date: 2020/12/10
 ---
 
 ## _一：npm 的安装_
