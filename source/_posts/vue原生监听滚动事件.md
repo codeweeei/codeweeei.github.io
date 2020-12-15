@@ -2,7 +2,7 @@
 title: vue原生监听滚动事件
 date: 2020/12/12
 tags: vue实战
-categories: VueV
+categories: Vue
 ---
 
 ## _vue 原生监听滚动事件及实现点击回到顶部_
