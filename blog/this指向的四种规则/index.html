@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="this 的指向的四种规则1.默认绑定规则 this 在全局环境中默认指向 window1console.log(this &#x3D;&#x3D;&#x3D; window) &#x2F;&#x2F;true 函数的独立调用 this 也是默认指向 window 常见场景1234function a() &amp;#123;  console.log(this)&amp;#125;a() &#x2F;&#x2F;window 立即执行函数中的 this 也是默认指向 window">
+<meta property="og:type" content="article">
+<meta property="og:title" content="this指向的四种规则">
+<meta property="og:url" content="https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="this 的指向的四种规则1.默认绑定规则 this 在全局环境中默认指向 window1console.log(this &#x3D;&#x3D;&#x3D; window) &#x2F;&#x2F;true 函数的独立调用 this 也是默认指向 window 常见场景1234function a() &amp;#123;  console.log(this)&amp;#125;a() &#x2F;&#x2F;window 立即执行函数中的 this 也是默认指向 window">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-19T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-21T07:09:03.235Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="前端面试">
+<meta property="article:tag" content="this">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>this指向的四种规则</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/JS%E5%8E%9F%E5%9E%8B%E4%B8%8E%E7%BB%A7%E6%89%BF/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&text=this指向的四种规则"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&is_video=false&description=this指向的四种规则"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=this指向的四种规则&body=Check out this article: https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&name=this指向的四种规则&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&t=this指向的四种规则"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E7%9A%84%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">this 的指向的四种规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%98%E8%AE%A4%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.1.</span> <span class="toc-text">1.默认绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%9A%90%E5%BC%8F%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.2.</span> <span class="toc-text">2.隐式绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%98%BE%E7%A4%BA%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.3.</span> <span class="toc-text">3.显示绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-new-%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.4.</span> <span class="toc-text">4.new 绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E7%A7%8D%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99-this-%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.5.</span> <span class="toc-text">5. 4 种绑定规则 this 的优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0-this-%E7%9B%B8%E5%85%B3"><span class="toc-number">1.6.</span> <span class="toc-text">6.箭头函数 this 相关</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        this指向的四种规则
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-19T00:00:00.000Z" itemprop="datePublished">2020-12-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Javascript/">Javascript</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/this/" rel="tag">this</a>, <a class="tag-link-link" href="/tags/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/" rel="tag">前端面试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="this-的指向的四种规则"><a href="#this-的指向的四种规则" class="headerlink" title="this 的指向的四种规则"></a>this 的指向的四种规则</h2><h3 id="1-默认绑定规则"><a href="#1-默认绑定规则" class="headerlink" title="1.默认绑定规则"></a><b style="color:pink">1.默认绑定规则</b></h3><ul>
+<li>this 在全局环境中默认指向 window<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span> === <span class="built_in">window</span>) <span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li>函数的独立调用 this 也是默认指向 window<ul>
+<li>常见场景<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">a() <span class="comment">//window</span></span><br></pre></td></tr></table></figure></li>
+<li>立即执行函数中的 this 也是默认指向 window<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">;(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>)</span><br><span class="line">&#125;)() <span class="comment">//window</span></span><br></pre></td></tr></table></figure></li>
+<li>涉及闭包的情况<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  foo: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向obj对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向window</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> test</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">obj.foo()() <span class="comment">//此时obj.foo()相当于test，故 仍是独立调用</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-隐式绑定规则"><a href="#2-隐式绑定规则" class="headerlink" title="2.隐式绑定规则"></a><b style="color:pink">2.隐式绑定规则</b></h3><ul>
+<li><p>通过对象的属性（方法）来调用，谁调用就指向谁</p>
+</li>
+<li><p>每一个函数执行都会有自身的 this 指向，由当前的执行方式决定的；</p>
+</li>
+<li><p>作为一个 DOM 事件处理函数：当函数被用作事件处理函数时，它的 this 指向触发事件的元素</p>
+</li>
+<li><p>常见场景</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向obj对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">//此时test()相当于独立调用</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向window</span></span><br><span class="line">    &#125;</span><br><span class="line">    test()</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">obj.foo()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>变量赋值的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向window</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">//此时test()相当于独立调用</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//指向window</span></span><br><span class="line">    &#125;</span><br><span class="line">    test()</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//此时未执行obj的foo方法，只是将其引用赋值给bar，之后bar()调用就相当于独立调用；</span></span><br><span class="line"><span class="keyword">let</span> bar = obj.foo</span><br><span class="line">bar()</span><br></pre></td></tr></table></figure></li>
+<li><p>参数赋值的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  foo: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//父函数bar是有能力决定子函数fn的this指向</span></span><br><span class="line">  fn()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//预编译的过程中，实参被赋值为形参（浅拷贝）</span></span><br><span class="line">bar(obj.foo) <span class="comment">//window</span></span><br></pre></td></tr></table></figure></li>
+<li><p>高阶函数（参数有函数的）</p>
+<ul>
+<li>父函数是有能力决定子函数（回调函数）的 this 指向的，需要查阅这些高阶函数的 api 文档查看 this；</li>
+<li>比如 arr.forEach(function(){},this 指向对象)，setinterval(function(){})等等；</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-显示绑定规则"><a href="#3-显示绑定规则" class="headerlink" title="3.显示绑定规则"></a><b style="color:pink">3.显示绑定规则</b></h3><ul>
+<li>apply<ul>
+<li>apply 接受两个参数，第一个参数是 this 的指向，第二个参数是函数接受的参数，以数组的形式传入，且当第一个参数为 null、undefined 的时候，默认指向 window(在浏览器中)，使用 apply 方法改变 this 指向后原函数会立即执行，且此方法只是临时改变 thi 指向一次。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.apply(<span class="literal">null</span>, arr)) <span class="comment">//10</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>call<ul>
+<li>call 方法的第一个参数也是 this 的指向，后面传入的是一个参数列表（注意和 apply 传参的区别）。当一个参数为 null 或 undefined 的时候，表示指向 window（在浏览器中），和 apply 一样，call 也只是临时改变一次 this 指向，并立即执行。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.call(<span class="literal">null</span>, arr[<span class="number">0</span>], arr[<span class="number">1</span>], arr[<span class="number">2</span>], arr[<span class="number">3</span>], arr[<span class="number">4</span>])) <span class="comment">//10</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>bind<ul>
+<li>bind 方法和 call 很相似，第一参数也是 this 的指向，后面传入的也是一个参数列表(但是这个参数列表可以分多次传入，call 则必须一次性传入所有参数)，但是它改变 this 指向后不会立即执行，而是返回一个永久改变 this 指向的函数。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">12</span>]</span><br><span class="line"><span class="keyword">var</span> max = <span class="built_in">Math</span>.max.bind(<span class="literal">null</span>, arr[<span class="number">0</span>], arr[<span class="number">1</span>], arr[<span class="number">2</span>], arr[<span class="number">3</span>])</span><br><span class="line"><span class="built_in">console</span>.log(max(arr[<span class="number">4</span>])) <span class="comment">//12，分两次传参最后函数运行时会把所有参数连接起来一起放入函数运行。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>三者的区别<ul>
+<li>三者都可以改变函数的 this 对象指向。</li>
+<li>三者第一个参数都是 this 要指向的对象，如果如果没有这个参数或参数为 undefined 或 null，则默认指向全局 window。</li>
+<li>三者都可以传参，但是 apply 是数组，而 call 是参数列表，且 apply 和 call 是一次性传入参数，而 bind 可以分为多次传入。<br>bind 是返回绑定 this 之后的函数，便于稍后调用；apply 、call 则是立即执行 。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-new-绑定规则"><a href="#4-new-绑定规则" class="headerlink" title="4.new 绑定规则"></a><b style="color:pink">4.new 绑定规则</b></h3><ul>
+<li>当一个函数用作构造函数时（使用 new 关键字），它的 this 被绑定到正在构造的新对象。<blockquote>
+<p>虽然构造函数返回的默认值是 this 所指的那个对象，但它仍可以手动返回其他的对象（如果返回值不是一个对象，则仍返回 this 对象）。</p>
+</blockquote>
+</li>
+<li>例子<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//根据需要在this上创建属性，然后赋值给它们</span></span><br><span class="line">  <span class="built_in">this</span>.a = <span class="number">37</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> C()</span><br><span class="line"><span class="built_in">console</span>.log(o.a) <span class="comment">//37</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.a = <span class="number">37</span></span><br><span class="line">  <span class="comment">//手动的设置了返回对象，与this绑定的默认对象被丢弃了</span></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">a</span>: <span class="number">38</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line">o = <span class="keyword">new</span> C2()</span><br><span class="line"><span class="built_in">console</span>.log(o.a) <span class="comment">//38</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="5-4-种绑定规则-this-的优先级"><a href="#5-4-种绑定规则-this-的优先级" class="headerlink" title="5. 4 种绑定规则 this 的优先级"></a><b style="color:pink">5. 4 种绑定规则 this 的优先级</b></h3><ul>
+<li>new &gt; 显示 &gt; 隐式 &gt; 默认</li>
+</ul>
+<h3 id="6-箭头函数-this-相关"><a href="#6-箭头函数-this-相关" class="headerlink" title="6.箭头函数 this 相关"></a><b style="color:pink">6.箭头函数 this 相关</b></h3><ul>
+<li><p>箭头函数内部没有 this 指向，this 是由外层函数（父函数）作用域中的 this 决定的，无论通过上者四种绑定规则都对 this 无效，即箭头函数的 this 被永久绑定到了它外层函数的 this；</p>
+</li>
+<li><p>通过对象的方法来隐式绑定箭头函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>)<span class="comment">//obj</span></span><br><span class="line">  <span class="keyword">let</span> test = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>)<span class="comment">//obj</span></span><br><span class="line">  &#125;</span><br><span class="line">  test()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//通过对象的方法来隐式调用箭头函数</span></span><br><span class="line">obj.foo()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过独立调用(默认绑定规则)对箭头函数无效，即 this 不一定会指向 window</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//obj</span></span><br><span class="line">  <span class="keyword">let</span> test = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//obj</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> test</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  foo: foo,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//通过箭头函数的独立调用</span></span><br><span class="line">obj.foo()()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显示绑定规则对箭头函数也无效</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//window 独立调用foo，this指向window</span></span><br><span class="line">  <span class="keyword">let</span> test = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">//window 显示调用改变了this指向，但对箭头函数无效，仍然跟外层this一致指向window</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> test</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  foo: foo,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> bar = foo().call(obj)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>new 不能实例箭头函数，会报错</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> foo = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> foo() <span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<p><i style="font-size:13px">参考文献：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this">MDN</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NT4y1j7xH?from=search&seid=11721105465063872258">前端小夏老师</a></i></p>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/this指向的四种规则.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E7%9A%84%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">this 的指向的四种规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%98%E8%AE%A4%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.1.</span> <span class="toc-text">1.默认绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%9A%90%E5%BC%8F%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.2.</span> <span class="toc-text">2.隐式绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%98%BE%E7%A4%BA%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.3.</span> <span class="toc-text">3.显示绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-new-%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-number">1.4.</span> <span class="toc-text">4.new 绑定规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E7%A7%8D%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99-this-%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.5.</span> <span class="toc-text">5. 4 种绑定规则 this 的优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0-this-%E7%9B%B8%E5%85%B3"><span class="toc-number">1.6.</span> <span class="toc-text">6.箭头函数 this 相关</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&text=this指向的四种规则"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&is_video=false&description=this指向的四种规则"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=this指向的四种规则&body=Check out this article: https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&title=this指向的四种规则"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&name=this指向的四种规则&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/this%E6%8C%87%E5%90%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E8%A7%84%E5%88%99/&t=this指向的四种规则"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
