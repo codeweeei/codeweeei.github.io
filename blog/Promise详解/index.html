@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="promise 详解一：为什么需要 promise 需求：通过 ajax 请求 id，再根据 id 请求用户名，再通过用户名获取邮箱… 代码实现  1234&amp;#123;  &#x2F;&#x2F;data1.json  &quot;id&quot;: 1&amp;#125;  1234&amp;#123;  &#x2F;&#x2F;data2.json  &quot;username&quot;: &quot;超威&quot;&amp;#125;  1234&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Promise详解">
+<meta property="og:url" content="https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="promise 详解一：为什么需要 promise 需求：通过 ajax 请求 id，再根据 id 请求用户名，再通过用户名获取邮箱… 代码实现  1234&amp;#123;  &#x2F;&#x2F;data1.json  &quot;id&quot;: 1&amp;#125;  1234&amp;#123;  &#x2F;&#x2F;data2.json  &quot;username&quot;: &quot;超威&quot;&amp;#125;  1234&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-06T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-05T17:31:38.030Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="Promise">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Promise详解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/rem%E5%8F%8Aless%E7%9B%B8%E5%85%B3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&text=Promise详解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&is_video=false&description=Promise详解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Promise详解&body=Check out this article: https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&name=Promise详解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&t=Promise详解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#promise-%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">promise 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-promise"><span class="toc-number">1.1.</span> <span class="toc-text">一：为什么需要 promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9APromise-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">二：Promise 的基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%EF%BC%9Apromise-%E5%8E%9F%E5%9E%8B%E9%87%8C%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三：promise 原型里的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9Apromise-%E5%B8%B8%E8%A7%84%E5%86%99%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">四：promise 常规写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E4%BD%BF%E7%94%A8-promise-%E8%A7%A3%E5%86%B3%E5%9B%9E%E8%B0%83%E5%9C%B0%E7%8B%B1"><span class="toc-number">1.5.</span> <span class="toc-text">五：使用 promise 解决回调地狱 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%EF%BC%9A%E4%BC%98%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">六：优化代码 </span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Promise详解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-06T00:00:00.000Z" itemprop="datePublished">2021-01-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Javascript/">Javascript</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Promise/" rel="tag">Promise</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="promise-详解"><a href="#promise-详解" class="headerlink" title="promise 详解"></a>promise 详解</h2><h3 id="一：为什么需要-promise"><a href="#一：为什么需要-promise" class="headerlink" title="一：为什么需要 promise"></a><b style="color:pink">一：为什么需要 promise</b></h3><ul>
+<li>需求：通过 ajax 请求 id，再根据 id 请求用户名，再通过用户名获取邮箱…</li>
+<li>代码实现</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">//data1.json</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">//data2.json</span></span><br><span class="line">  <span class="attr">&quot;username&quot;</span>: <span class="string">&quot;超威&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">//data3.json</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span>: <span class="string">&quot;xxxx.@qq.com&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//发送Ajax请求获取id</span></span><br><span class="line">$.ajax(&#123;</span><br><span class="line">  type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">  url: <span class="string">&quot;./data1.json&quot;</span>,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//里面的代码为异步调用</span></span><br><span class="line">    <span class="comment">//res 表示返回的结果</span></span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = res <span class="comment">//对象的结构赋值，将返回的结果中id的值赋值在id中</span></span><br><span class="line">    <span class="built_in">console</span>.log(id) <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">console</span>.log(res) <span class="comment">//正常打印data1.json里的数据</span></span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">      type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">      url: <span class="string">&quot;./data2.json&quot;</span>,</span><br><span class="line">      data: &#123; id &#125;,</span><br><span class="line">      success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res) <span class="comment">//正常打印data2.json里的数据</span></span><br><span class="line">        <span class="keyword">const</span> &#123; username &#125; = res</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">          type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">          url: <span class="string">&quot;./data3.json&quot;</span>,</span><br><span class="line">          data: &#123; username &#125;,</span><br><span class="line">          success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res)</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// //再发送一次Ajax请求通过id获取username</span></span><br><span class="line"><span class="comment">// $.ajax(&#123;</span></span><br><span class="line"><span class="comment">//   type: &quot;GET&quot;,</span></span><br><span class="line"><span class="comment">//   url: &quot;./data2.json&quot;,</span></span><br><span class="line"><span class="comment">//   data: &#123; id &#125;,</span></span><br><span class="line"><span class="comment">//   success: function (res) &#123;</span></span><br><span class="line"><span class="comment">//     console.log(res) //报错id未定义，因为该代码顺序为先执行第一个$.ajax（同步），再执行第二个$.ajax（同步），之后再执行异步代码，故获取不到id的值；</span></span><br><span class="line"><span class="comment">//   &#125;,</span></span><br><span class="line"><span class="comment">// &#125;)</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>回调地狱的问题，如上述代码可见若多层嵌套发送 Ajax 请求会造成回调地狱（在回调函数中嵌套回调）的问题，代码不美观，且不易维护；</p>
+</blockquote>
+<h3 id="二：Promise-的基本使用"><a href="#二：Promise-的基本使用" class="headerlink" title="二：Promise 的基本使用"></a><b style="color:pink">二：Promise 的基本使用</b></h3><ul>
+<li>promise 是一个构造函数，通过 new 来实例化对象，promise 接收一个函数作为参数，参数函数中接收 resolve 和 reject 两个形参；</li>
+<li>基本语法：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>promise 实例有两个属性<ul>
+<li>state：状态<ul>
+<li>第一种状态：pending（准备，待解决，进行中）</li>
+<li>第二种状态：fulfilled（已完成，成功）</li>
+<li>第三种状态：rejectd（已拒绝，失败）</li>
+<li>状态的改变<span style="color:#e88565">（只能改变一次状态）</span><ul>
+<li>通过调用 resolve（）<span style="color:skyblue">【pending -&gt; fulfilled】</span>和 reject（） <span style="color:skyblue"> 【pending -&gt; rejectd】</span>函数来 改变当前 promise 实例的状态；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>result：结果<ul>
+<li>通过给调用 resolve 函数，传递参数，来改变当前 result 的结果；</li>
+<li>通过给调用 reject 函数，传递参数，来改变当前 result 的结果；<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="string">&quot;成功的结果&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="三：promise-原型里的方法"><a href="#三：promise-原型里的方法" class="headerlink" title="三：promise 原型里的方法"></a><b style="color:pink">三：promise 原型里的方法</b></h3><ol>
+<li>then 方法</li>
+</ol>
+<ul>
+<li>then 方法也传递两个参数函数；</li>
+<li>当 promise 的状态为 fulfill 时执行第一个参数；</li>
+<li>当 promise 的状态为 rejected 时执行第二个参数；</li>
+<li>then 方法的返回值也是一个 新的 promise 实例对象，状态为 pending；<blockquote>
+<p>注意需要使用断点调试模拟代码真实执行顺序（同步异步）才可得到该真实结果（pending），不使用断点的话返回的新 promise 实例的状态为 fulfilled</p>
+</blockquote>
+<ul>
+<li>即可采用链式操作，使代码更加扁平化</li>
+</ul>
+</li>
+<li>通过 then 方法第一个参数函数里的参数<br>可以得到 resolve 函数传递的参数数据；</li>
+<li>通过 then 方法第二个参数函数里的参数<br>可以得到 reject 函数传递的参数数据；</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> $http = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="string">&quot;成功了&quot;</span>)</span><br><span class="line">  <span class="comment">// reject(&quot;出错了&quot;)</span></span><br><span class="line">&#125;)</span><br><span class="line">$http.then(</span><br><span class="line">  (res) =&gt; &#123;</span><br><span class="line">    <span class="comment">//当promise的状态为fulfill时执行</span></span><br><span class="line">    <span class="built_in">console</span>.log(res) <span class="comment">//成功了</span></span><br><span class="line">  &#125;,</span><br><span class="line">  (err) =&gt; &#123;</span><br><span class="line">    <span class="comment">//当promise的状态为reject时执行</span></span><br><span class="line">    <span class="built_in">console</span>.log(err) <span class="comment">//出错了</span></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果 promise 的状态不改变（不调用 resolve 或 reject 函数），就不会执行 then 里面的方法，使用 return 语句可以将 then 方法返回的实例状态改为 fulfilled；如果在 then 方法中出错，会将返回的 t 实例状态改为 rejected</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> t = p.then(</span><br><span class="line">  (res) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;成功1&quot;</span>) <span class="comment">//打印</span></span><br><span class="line">    <span class="comment">//使用return可将t实例的状态改为fulfilled</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">123</span></span><br><span class="line">    <span class="comment">//如果在then方法中出错，会将返回的t实例状态改为rejected</span></span><br><span class="line">    <span class="comment">// console.log(a)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  (err) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;出错1&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line"><span class="keyword">const</span> w = t.then(</span><br><span class="line">  (res) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;成功2&quot;</span>, res)</span><br><span class="line">  &#125;,</span><br><span class="line">  (err) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;出错2&quot;</span>, err) <span class="comment">//打印</span></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>catch 方法</li>
+</ol>
+<ul>
+<li>catch 方法中的参数函数在什么时候执行？<ul>
+<li>当 promise 的状态改为 rejected 时执行；</li>
+<li>当 promise 执行体中出现代码错误（人为抛出错误也行）时执行，并可捕获到该错误；</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">result, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//1.promise状态改为rejected时</span></span><br><span class="line">  reject(<span class="string">&quot;出错了&quot;</span>)</span><br><span class="line">  <span class="comment">//2.执行出现错误时</span></span><br><span class="line">  <span class="comment">// console.log(a)</span></span><br><span class="line">  <span class="comment">//3.人为抛出错误</span></span><br><span class="line">  <span class="comment">// throw new Error(&#x27;出错了&#x27;)</span></span><br><span class="line">&#125;)</span><br><span class="line">p.catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="四：promise-常规写法"><a href="#四：promise-常规写法" class="headerlink" title="四：promise 常规写法"></a><b style="color:pink">四：promise 常规写法</b></h3><ul>
+<li>代码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//成功时执行</span></span><br><span class="line">&#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//出错时执行</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="五：使用-promise-解决回调地狱"><a href="#五：使用-promise-解决回调地狱" class="headerlink" title="五：使用 promise 解决回调地狱 "></a><b style="color:pink">五：使用 promise 解决回调地狱 </b></h3><ul>
+<li>示例</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> id = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  $.ajax(&#123;</span><br><span class="line">    type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">    url: <span class="string">&quot;./data1.json&quot;</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">      resolve(res)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = res <span class="comment">//ES6解构赋值</span></span><br><span class="line">    <span class="built_in">console</span>.log(id) <span class="comment">//1</span></span><br><span class="line">    <span class="comment">//使用return将返回的promise状态改为fulfilled，并且根据获取的id值继续发送ajax请求</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      $.ajax(&#123;</span><br><span class="line">        type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">        url: <span class="string">&quot;./data2.json&quot;</span>,</span><br><span class="line">        data: &#123; id &#125;,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">          resolve(res)</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; username &#125; = res</span><br><span class="line">    <span class="built_in">console</span>.log(username) <span class="comment">//超威</span></span><br><span class="line">    <span class="comment">//综上</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      $.ajax(&#123;</span><br><span class="line">        type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">        url: <span class="string">&quot;./data3.json&quot;</span>,</span><br><span class="line">        data: &#123; username &#125;,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">          resolve(res)</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; email &#125; = res</span><br><span class="line">    <span class="built_in">console</span>.log(email) <span class="comment">//xxxx@qq.com</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="六：优化代码"><a href="#六：优化代码" class="headerlink" title="六：优化代码 "></a><b style="color:pink">六：优化代码 </b></h3><ul>
+<li>上述的代码虽然结构清晰，但是有太多相视的代码，故可以封装优化一下；</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装多余的代码成一个函数，返回promise对象</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetData</span>(<span class="params">url, data = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">      type: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">      url: url,</span><br><span class="line">      data: data,</span><br><span class="line">      success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        resolve(res)</span><br><span class="line">      &#125;,</span><br><span class="line">      error: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">        reject(err)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GetData(<span class="string">&quot;data1.json&quot;</span>)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = res <span class="comment">//ES6解构赋值</span></span><br><span class="line">    <span class="built_in">console</span>.log(id) <span class="comment">//1</span></span><br><span class="line">    <span class="comment">//使用return将返回的promise状态改为fulfilled，并且根据获取的id值继续发送ajax请求</span></span><br><span class="line">    <span class="keyword">return</span> GetData(<span class="string">&quot;data2.json&quot;</span>, id)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; username &#125; = res</span><br><span class="line">    <span class="built_in">console</span>.log(username) <span class="comment">//超威</span></span><br><span class="line">    <span class="keyword">return</span> GetData(<span class="string">&quot;data3.json&quot;</span>, username)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; email &#125; = res</span><br><span class="line">    <span class="built_in">console</span>.log(email) <span class="comment">//xxxx@qq.com</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>简单来说，Promise 就是用同步的方式写异步的代码，用来解决回调问题；</p>
+</blockquote>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/Promise详解.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#promise-%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">promise 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-promise"><span class="toc-number">1.1.</span> <span class="toc-text">一：为什么需要 promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9APromise-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">二：Promise 的基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%EF%BC%9Apromise-%E5%8E%9F%E5%9E%8B%E9%87%8C%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三：promise 原型里的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9Apromise-%E5%B8%B8%E8%A7%84%E5%86%99%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">四：promise 常规写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E4%BD%BF%E7%94%A8-promise-%E8%A7%A3%E5%86%B3%E5%9B%9E%E8%B0%83%E5%9C%B0%E7%8B%B1"><span class="toc-number">1.5.</span> <span class="toc-text">五：使用 promise 解决回调地狱 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%EF%BC%9A%E4%BC%98%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">六：优化代码 </span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&text=Promise详解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&is_video=false&description=Promise详解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Promise详解&body=Check out this article: https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&title=Promise详解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&name=Promise详解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Promise%E8%AF%A6%E8%A7%A3/&t=Promise详解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
