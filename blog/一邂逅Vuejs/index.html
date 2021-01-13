@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Vue.js 知识全解一：邂逅 Vue.js1. Vue.js 是一个构建用户界面的渐进式的框架 渐进表示可以将 Vue 作为应用的一部分嵌入其中，带来更多丰富的交互体验； 或者希望更多的业务逻辑使用 Vue 实现，一点一点将以前的页面进行重构；  2. Vue 的特点 解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟 DOM  3. Vue.js 的安装 直接 CDN 引入  1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一：邂逅Vue.js">
+<meta property="og:url" content="https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="Vue.js 知识全解一：邂逅 Vue.js1. Vue.js 是一个构建用户界面的渐进式的框架 渐进表示可以将 Vue 作为应用的一部分嵌入其中，带来更多丰富的交互体验； 或者希望更多的业务逻辑使用 Vue 实现，一点一点将以前的页面进行重构；  2. Vue 的特点 解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟 DOM  3. Vue.js 的安装 直接 CDN 引入  1234">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/mvvm.png">
+<meta property="og:image" content="https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
+<meta property="article:published_time" content="2021-01-13T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-13T05:40:54.297Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="Vue知识全解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/mvvm.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>一：邂逅Vue.js</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/Promise%E8%AF%A6%E8%A7%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&text=一：邂逅Vue.js"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&is_video=false&description=一：邂逅Vue.js"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一：邂逅Vue.js&body=Check out this article: https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&name=一：邂逅Vue.js&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&t=一：邂逅Vue.js"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vue-js-%E7%9F%A5%E8%AF%86%E5%85%A8%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Vue.js 知识全解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E9%82%82%E9%80%85-Vue-js"><span class="toc-number">1.1.</span> <span class="toc-text">一：邂逅 Vue.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Vue-js-%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9E%84%E5%BB%BA%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2%E7%9A%84%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. Vue.js 是一个构建用户界面的渐进式的框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Vue-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. Vue 的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Vue-js-%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. Vue.js 的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Vue-js-%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. Vue.js 的初体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Vue-%E4%B8%AD%E7%9A%84-MVVM"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. Vue 中的 MVVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Vue-%E4%BC%A0%E5%85%A5%E7%9A%84-options-%E9%80%89%E9%A1%B9"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. Vue 传入的 options 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Vue-%E7%9A%84%E5%85%AB%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.1.7.</span> <span class="toc-text">7. Vue 的八个生命周期</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        一：邂逅Vue.js
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-13T00:00:00.000Z" itemprop="datePublished">2021-01-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Vue/">Vue</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Vue%E7%9F%A5%E8%AF%86%E5%85%A8%E8%A7%A3/" rel="tag">Vue知识全解</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Vue-js-知识全解"><a href="#Vue-js-知识全解" class="headerlink" title="Vue.js 知识全解"></a>Vue.js 知识全解</h1><h2 id="一：邂逅-Vue-js"><a href="#一：邂逅-Vue-js" class="headerlink" title="一：邂逅 Vue.js"></a><span style="color:skyblue">一：邂逅 Vue.js</span></h2><h3 id="1-Vue-js-是一个构建用户界面的渐进式的框架"><a href="#1-Vue-js-是一个构建用户界面的渐进式的框架" class="headerlink" title="1. Vue.js 是一个构建用户界面的渐进式的框架"></a><em>1. Vue.js 是一个构建用户界面的渐进式的框架</em></h3><ul>
+<li>渐进表示可以将 Vue 作为应用的一部分嵌入其中，带来更多丰富的交互体验；</li>
+<li>或者希望更多的业务逻辑使用 Vue 实现，一点一点将以前的页面进行重构；</li>
+</ul>
+<h3 id="2-Vue-的特点"><a href="#2-Vue-的特点" class="headerlink" title="2. Vue 的特点"></a><em>2. Vue 的特点</em></h3><ul>
+<li>解耦视图和数据</li>
+<li>可复用的组件</li>
+<li>前端路由技术</li>
+<li>状态管理</li>
+<li>虚拟 DOM</li>
+</ul>
+<h3 id="3-Vue-js-的安装"><a href="#3-Vue-js-的安装" class="headerlink" title="3. Vue.js 的安装"></a><em>3. Vue.js 的安装</em></h3><ul>
+<li>直接 CDN 引入</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开发环境版本，包含了有帮助的命令行警告 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdeliver.net/npm/vue/dist/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 生产环境版本，优化了尺寸和速度 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdeliver.net/npm/vue&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>下载和引入</p>
+<ul>
+<li>开发环境：<a target="_blank" rel="noopener" href="https://vuejs.org/js/vue.js">https://vuejs.org/js/vue.js</a></li>
+<li>生产环境：<a target="_blank" rel="noopener" href="https://vuejs.org/js/vue.min.js">https://vuejs.org/js/vue.min.js</a></li>
+</ul>
+</li>
+<li><p><b style="color:pink">npm 安装</b></p>
+</li>
+</ul>
+<h3 id="4-Vue-js-的初体验"><a href="#4-Vue-js-的初体验" class="headerlink" title="4. Vue.js 的初体验"></a><em>4. Vue.js 的初体验</em></h3><ul>
+<li>传统编程范式：命令式编程</li>
+<li>Vue 的编程范式：声明式编程</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span>&#123;&#123;message&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;js/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="comment">//创建Vue实例对象</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">    el: <span class="string">&quot;#app&quot;</span>, <span class="comment">//用来挂载Vue实例要管理的元素，就会解析该元素下的特殊语法与vue指令</span></span></span><br><span class="line">    data: &#123;</span><br><span class="line"><span class="javascript">      <span class="comment">//定义储存一些数据，可以直接定义出来，也可以来自网络，从服务器加载的</span></span></span><br><span class="line"><span class="javascript">      messages: <span class="string">&quot;xxx&quot;</span>,</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Vue-中的-MVVM"><a href="#5-Vue-中的-MVVM" class="headerlink" title="5. Vue 中的 MVVM"></a><em>5. Vue 中的 MVVM</em></h3><ul>
+<li>MVVM 是 Model-View-ViewModel 的缩写</li>
+<li>View 层表示视图层（DOM 层）——即给用户展示各种信息</li>
+<li>Model 层表示数据层 （可以是定义的数据，服务器请求的数据，网络上获取的数据等）</li>
+<li>ViewModel 表示视图模型层，是 View 和 Model 沟通的桥梁；即 Vue 实例<ul>
+<li>一方面可以实现 Data Binding（数据绑定），即 Model 的改变实时的反映到 View 层；</li>
+<li>另一方面可以实现 DOM Listeners（DOM 监听），当 DOM 中发生一些事件（点击，滚动等），可以监听到，并在需要的时候更改对应的 Data；</li>
+</ul>
+</li>
+<li>图解<img src="/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/mvvm.png" class title="mvvm"></li>
+</ul>
+<h3 id="6-Vue-传入的-options-选项"><a href="#6-Vue-传入的-options-选项" class="headerlink" title="6. Vue 传入的 options 选项"></a><em>6. Vue 传入的 options 选项</em></h3><ul>
+<li>el<ul>
+<li>类型：string | HTMLElement</li>
+<li>作用：决定之后 Vue 挂载在哪个元素（管理哪个 DOM）</li>
+</ul>
+</li>
+<li>data<ul>
+<li>类型：Object | <b style="color:pink">Function（组件中必需是函数）</b></li>
+<li>作用：Vue 实例对应的数据对象</li>
+</ul>
+</li>
+<li>methods<ul>
+<li>作用：定义属于 Vue 的一些方法，可以在其他地方调用，也可以在指令中使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-Vue-的八个生命周期"><a href="#7-Vue-的八个生命周期" class="headerlink" title="7. Vue 的八个生命周期"></a><em>7. Vue 的八个生命周期</em></h3><ul>
+<li>beforeCreate<ul>
+<li>在这个钩子函数里，只是刚开始初始化实例，你拿不到实例里的任何东西，比如 data 和 methods 和事件监听等。</li>
+</ul>
+</li>
+<li><b style="color:skyblue">create</b><ul>
+<li>在实例创建完成后被立即调用。在这一步，实例已完成以下的配置：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</li>
+<li><b style="color:pink">应用场景：异步数据的获取和对实例数据的初始化操作都在这里面进行。</b></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//常见使用</span></span><br><span class="line">data: &#123;</span><br><span class="line">  msg: <span class="literal">null</span></span><br><span class="line">&#125;,</span><br><span class="line">methods: &#123;</span><br><span class="line">  <span class="function"><span class="title">getMsg</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.$http.get(url).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.msg = res.data.msg</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="function"><span class="title">created</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="built_in">this</span>.getMsg()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>beforeMounted</p>
+<ul>
+<li>在挂载开始之前被调用：相关的 render 函数首次被调用。</li>
+<li>不论是 created 还是 beforeMount 在它们里面都拿不到真实的 dom 元素，如果我们需要拿到 dom 元素就需要在 mounted 里操作</li>
+</ul>
+</li>
+<li><p><b style="color:skyblue">mounted</b></p>
+<ul>
+<li>el 已经挂载对应的 dom 元素，即可以拿到初始化的 dom 元素，如果存在异步的操作对 dom 元素数据进行修改则只能在 updated 里获取；</li>
+<li><b style="color:pink">应用场景：初始数据（在 data 中有的）的 dom 渲染完毕，可以获取 dom</b></li>
+</ul>
+</li>
+<li><p>beforeUpdated</p>
+<ul>
+<li>当数据更新后出发的钩子函数，这个钩子函数里拿到的是更改之前的数据，虚拟 DOM 重新渲染和打补丁之前被调用。</li>
+</ul>
+</li>
+<li><p>updated</p>
+<ul>
+<li><p>updated 是指 mouted 钩子后（包括 mounted）的数据更改时调用，改变一次调用一次，在 created 里的数据更改不叫更改叫做初始化；</p>
+</li>
+<li><p>一般都是在事件方法（methods）里更改数据，然后通过 updated 对其操作。</p>
+</li>
+<li><p>应用场景：如果 dom 操作依赖的数据是在异步操作中获取，并且只有一次数据的更改 ，也可以说是数据更新完毕：如果对数据更新做一些统一处理在 updated 钩子中处理即可。</p>
+</li>
+<li><p>如果想分别区别不同的数据更新，同时要对 dom 进行操作那么需要使用 nextTick 函数处理；</p>
+</li>
+<li><p>注意事项：不要在当前钩子里修改当前组件中的 data，否则会继续触发 beforeUpdate、updated 这两个生命周期，进入死循环！</p>
+</li>
+<li><p><b style="color:pink">updated，watch 和 nextTick 区别</b></p>
+<ul>
+<li>updated 对所有数据的变化进行统一处理</li>
+<li>watch 对具体某个数据变化做统一处理</li>
+<li>nextTick 是对某个数据的某一次变化进行处理</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>beforeDestory</p>
+<ul>
+<li>实例销毁之前调用。在这一步，实例仍然完全可用</li>
+</ul>
+</li>
+<li><p>destory</p>
+<ul>
+<li>Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。</li>
+<li>beforeDestroy 和 destroyed 只能通过手动触发$destroy 来调用</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//手动触发销毁app Vue实例</span></span><br><span class="line">app.$destroy()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>图解<img src="/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" class title="vue生命周期"></p>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/一邂逅Vuejs.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vue-js-%E7%9F%A5%E8%AF%86%E5%85%A8%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Vue.js 知识全解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E9%82%82%E9%80%85-Vue-js"><span class="toc-number">1.1.</span> <span class="toc-text">一：邂逅 Vue.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Vue-js-%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9E%84%E5%BB%BA%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2%E7%9A%84%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. Vue.js 是一个构建用户界面的渐进式的框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Vue-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. Vue 的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Vue-js-%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. Vue.js 的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Vue-js-%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. Vue.js 的初体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Vue-%E4%B8%AD%E7%9A%84-MVVM"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. Vue 中的 MVVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Vue-%E4%BC%A0%E5%85%A5%E7%9A%84-options-%E9%80%89%E9%A1%B9"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. Vue 传入的 options 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Vue-%E7%9A%84%E5%85%AB%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.1.7.</span> <span class="toc-text">7. Vue 的八个生命周期</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&text=一：邂逅Vue.js"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&is_video=false&description=一：邂逅Vue.js"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一：邂逅Vue.js&body=Check out this article: https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&title=一：邂逅Vue.js"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&name=一：邂逅Vue.js&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E4%B8%80%E9%82%82%E9%80%85Vuejs/&t=一：邂逅Vue.js"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
