@@ -418,3 +418,92 @@ const app = new Vue({
     </script>
     ```
 
+### _9. v-slot 插槽指令 的使用_
+
+> 在 2.6.0 中，vue 为具名插槽和作用域插槽引入了一个新的统一的语法 (即 v-slot 指令)。目前 slot 与 slot-scope 这两个特性暂时还未被移除。
+
+- 具名插槽
+
+```js
+// 组件
+Vue.component("lv-hello", {
+  template: `
+    <div>
+      <slot name="header"></slot>
+      <h1>我的天呀</h1>
+    </div>
+  `,
+})
+```
+
+```html
+<div id="app">
+  <!-- 老版本使用具名插槽 -->
+  <lv-hello>
+    <p slot="header">我是头部</p>
+  </lv-hello>
+  <!-- 新版本使用具名插槽 -->
+  <lv-hello>
+    <!-- 注意：这块的 v-slot 指令只能写在 template 标签上面，而不能放置到 p 标签上 -->
+    <template v-slot:header>
+      <p>我是头部</p>
+    </template>
+  </lv-hello>
+</div>
+```
+
+- 具名插槽的缩写
+  > 将 v-slot: 替换成 # 号
+
+```html
+<div id="app">
+  <lv-hello>
+    <template #header>
+      <p>我是头部</p>
+    </template>
+    <!-- 注意: #号后面必须有参数，否则会报错。即便是默认插槽，也需要写成 #default -->
+    <template #default>
+      <p>我是默认插槽</p>
+    </template>
+  </lv-hello>
+</div>
+```
+
+- 作用域插槽
+  > 所谓作用域插槽，就是让插槽的内容能够访问子组件中才有的数据。
+
+```js
+Vue.component("lv-hello", {
+  data: function () {
+    return {
+      firstName: "张",
+      lastName: "三",
+    }
+  },
+
+  template: `
+    <div>
+      <slot name="header" :firstName="firstName" :lastName="lastName"></slot>
+      <h1>我的天呀</h1>
+    </div>
+  `,
+})
+```
+
+```html
+<div id="app">
+  <!-- 老版本使用具名插槽 -->
+  <lv-hello>
+    <p slot="header" slot-scope="hh">
+      我是头部 {{ hh.firstName }} {{ hh.lastName }}
+    </p>
+  </lv-hello>
+  <!-- 新版本使用具名插槽 -->
+  <lv-hello>
+    <!-- 注意：这块的 v-slot 指令只能写在 template 标签上面，而不能放置到 p 标签上 -->
+    <template v-slot:header="hh">
+      <p>我是头部 {{ hh.firstName }} {{ hh.lastName }}</p>
+    </template>
+  </lv-hello>
+</div>
+```
