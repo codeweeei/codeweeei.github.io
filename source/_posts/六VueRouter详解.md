@@ -1,5 +1,5 @@
 ---
-title: 六：VueRouter路由详解
+title: Vue入门篇六：VueRouter路由详解
 date: 2021/1/26
 tags: [Vue知识全解]
 categories: Vue

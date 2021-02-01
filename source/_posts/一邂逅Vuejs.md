@@ -1,5 +1,5 @@
 ---
-title: 一：邂逅Vue.js
+title: Vue入门篇一：邂逅Vue.js
 date: 2021/1/13
 tags: [Vue知识全解]
 categories: Vue

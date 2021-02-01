@@ -1,5 +1,5 @@
 ---
-title: 三：Vuejs组件化开发
+title: Vue入门篇三：Vuejs组件化开发
 date: 2021/1/22
 tags: [Vue知识全解]
 categories: Vue

@@ -1,5 +1,5 @@
 ---
-title: 七：Vuex详解
+title: Vue入门篇七：Vuex详解
 date: 2021/1/27
 tags: [Vue知识全解]
 categories: Vue

@@ -1,5 +1,5 @@
 ---
-title: 二：Vue.js的基础语法
+title: Vue入门篇二：Vue.js的基础语法
 date: 2021/1/18
 tags: [Vue知识全解]
 categories: Vue
