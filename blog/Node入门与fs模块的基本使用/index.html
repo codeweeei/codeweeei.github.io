@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Node 入门一：node 基础知识 简介：node 是一款软件，它的功能是解析并运行 js（ECMAScript + node 相关的 api） 小技巧：使用 node-dev 可以实时运行 js，先npm install node-dev -g全局安装一下 node 是一款命令行应用 打开命令行的方式： 使用 win + r ，输入 cmd 按住 shift + 鼠标右键，松开 shift 键">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node入门篇——fs、path、url等核心模块的基本使用">
+<meta property="og:url" content="https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="Node 入门一：node 基础知识 简介：node 是一款软件，它的功能是解析并运行 js（ECMAScript + node 相关的 api） 小技巧：使用 node-dev 可以实时运行 js，先npm install node-dev -g全局安装一下 node 是一款命令行应用 打开命令行的方式： 使用 win + r ，输入 cmd 按住 shift + 鼠标右键，松开 shift 键">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-30T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-01T14:58:31.615Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="node模块">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Node入门篇——fs、path、url等核心模块的基本使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/url%E5%9C%B0%E5%9D%80%E8%AF%A6%E8%A7%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&text=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&is_video=false&description=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Node入门篇——fs、path、url等核心模块的基本使用&body=Check out this article: https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&name=Node入门篇——fs、path、url等核心模块的基本使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&t=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Node-%E5%85%A5%E9%97%A8"><span class="toc-number">1.</span> <span class="toc-text">Node 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9Anode-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">一：node 基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9Anode-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%8F%8A-node-%E4%B8%AD%E8%BF%90%E8%A1%8C-js-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">二：node 环境搭建及 node 中运行 js 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9Anode-%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="toc-number">1.3.</span> <span class="toc-text">三：node 中的模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9Afs-%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E6%A0%B8%E5%BF%83%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四：fs 模块的使用（核心）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%BB%86%E8%8A%82%E5%92%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">五：导入导出细节和原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AF%BC%E5%85%A5-require-%E7%BB%86%E8%8A%82"><span class="toc-number">1.5.1.</span> <span class="toc-text">1.导入 require 细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AF%BC%E5%87%BA-export-%E7%BB%86%E8%8A%82%E8%B7%9F%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.导出 export 细节跟原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9Anode-%E4%B8%AD%E7%9A%84%E5%8C%85"><span class="toc-number">1.6.</span> <span class="toc-text">六：node 中的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9Anpm-%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="toc-number">1.7.</span> <span class="toc-text">六：npm 的初步使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-npm-%E7%AE%A1%E7%90%86%E5%8C%85%E7%9A%84%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.npm 管理包的一些命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%EF%BC%9Anode-%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C-es6-%E6%A8%A1%E5%9D%97%E8%AF%AD%E6%B3%95"><span class="toc-number">1.8.</span> <span class="toc-text">七：node 环境中如何运行 es6 模块语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%EF%BC%9Anode-%E4%B8%AD%E5%BC%95%E5%85%A5-url-%E6%A8%A1%E5%9D%97%E5%8F%8A-querystring-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.</span> <span class="toc-text">八：node 中引入 url 模块及 querystring 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-1%EF%BC%9Aurl-parse-39-url-%E5%AD%97%E7%AC%A6%E4%B8%B2-39-%E8%A7%A3%E6%9E%90-url-%E8%B7%AF%E5%BE%84%E2%80%94%E2%80%94url-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.1.</span> <span class="toc-text">例子 1：url.parse(&#39;url 字符串&#39;)解析 url 路径——url 模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-2%EF%BC%9Aurl-parse-39-url-%E5%AD%97%E7%AC%A6%E4%B8%B2-39-%E8%A7%A3%E6%9E%90-%E6%9F%A5%E8%AF%A2%E5%AD%97%E7%AC%A6%E4%B8%B2-query%E2%80%94%E2%80%94querystring-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.2.</span> <span class="toc-text">例子 2：url.parse(&#39;url 字符串&#39;)解析 查询字符串 query——querystring 模块</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Node入门篇——fs、path、url等核心模块的基本使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-30T00:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Node/">Node</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/node%E6%A8%A1%E5%9D%97/" rel="tag">node模块</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Node-入门"><a href="#Node-入门" class="headerlink" title="Node 入门"></a>Node 入门</h1><h2 id="一：node-基础知识"><a href="#一：node-基础知识" class="headerlink" title="一：node 基础知识"></a><b style="color:skyblue">一：node 基础知识</b></h2><ul>
+<li>简介：node 是一款软件，它的功能是解析并运行 js（ECMAScript + node 相关的 api）</li>
+<li>小技巧：使用 node-dev 可以实时运行 js，先<code>npm install node-dev -g</code>全局安装一下</li>
+<li>node 是一款命令行应用</li>
+<li>打开命令行的方式：<ol>
+<li>使用 win + r ，输入 cmd</li>
+<li>按住 shift + 鼠标右键，松开 shift 键，即可出现<code>在此处打开 Powershell 窗口</code>的选项，打开命令行窗口就可以定位到我们当前的目录</li>
+</ol>
+</li>
+<li>常用的 cmd 命令：<ol>
+<li><code>dir</code>查看当前目录下的所有内容</li>
+<li><code>cd</code>切换工作目录</li>
+</ol>
+</li>
+</ul>
+<h2 id="二：node-环境搭建及-node-中运行-js-文件"><a href="#二：node-环境搭建及-node-中运行-js-文件" class="headerlink" title="二：node 环境搭建及 node 中运行 js 文件"></a><b style="color:skyblue">二：node 环境搭建及 node 中运行 js 文件</b></h2><ul>
+<li>node 环境搭建可查看相关教程：<br><a href="https://codeweeei.github.io/blog/hello-world/">https://codeweeei.github.io/blog/hello-world/</a></li>
+<li>node 中 js 的运行<ul>
+<li>浏览器中 js 的运行是需要依赖一份 html 文件的</li>
+<li>在 node 中，js 文件可以独立运行<ul>
+<li>打开命令行窗后，并且把工作目录定位到要运行的 js 文件的目录</li>
+<li>在命令行中输入 node 要运行的 js 文件名</li>
+</ul>
+</li>
+<li>技巧<ul>
+<li>使用 tab 键可以帮我们自动补全目录名称（在使用 node 或者 cd 的时候都可以使用）</li>
+<li>使用上下键，可以查看历史命令</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三：node-中的模块"><a href="#三：node-中的模块" class="headerlink" title="三：node 中的模块"></a><b style="color:skyblue">三：node 中的模块</b></h2><ul>
+<li><p>模块化编程：</p>
+<ol>
+<li>commonjs 规范（node.js）</li>
+<li>AMD、CMD 规范（浏览器端的 require.js）</li>
+</ol>
+</li>
+<li><p>关于模块化的总结：</p>
+<ol>
+<li>能够使各个模块独立运行，且互相不影响</li>
+<li>模块与模块之间应该一种统一的合作方式</li>
+</ol>
+</li>
+<li><p>node 中的模块</p>
+<ol>
+<li>一份 js 文件就是一个模块</li>
+<li>node 中规定使用 require 方法引入模块</li>
+<li>node 中规定使用 module.exports 去导出模块</li>
+</ol>
+</li>
+<li><p>node 中的模块分类</p>
+<ol>
+<li>自定义模块（我们自己创建的 js 文件）</li>
+<li>核心模块（包含在 node 内部，安装 node 环境，那么这些模块就可以直接使用了，比如 fs）</li>
+<li>第三方模块（需要安装，有个人创建并按照规范传到 node 包管理中心的模块）</li>
+</ol>
+</li>
+</ul>
+<h2 id="四：fs-模块的使用（核心）"><a href="#四：fs-模块的使用（核心）" class="headerlink" title="四：fs 模块的使用（核心）"></a><b style="color:skyblue">四：fs 模块的使用（核心）</b></h2><ul>
+<li>fs 是一个核心模块，主要功能是操作目录和文件</li>
+<li>引入 fs 模块：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入模块</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fs 上有相关的方法</li>
+</ul>
+<blockquote>
+<p>关于文件的方法</p>
+</blockquote>
+<ol>
+<li><p><code>fs.readFileSync()</code>读取文件</p>
+<ul>
+<li>第一个参数为读取文件的相对路径</li>
+<li>第二个参数为<code>&#39;utf-8&#39;</code></li>
+<li>返回的就是读取的内容（字符串或二进制）</li>
+</ul>
+</li>
+<li><p><code>fs.writeFileSync()</code>写入文件</p>
+<ul>
+<li>第一个参数为写入的路径</li>
+<li>第二个参数为要写入的内容，会彻底覆盖原文件（字符串格式）</li>
+<li>第三个参数为<code>&#39;utf-8&#39;</code></li>
+</ul>
+</li>
+<li><p><code>fs.unlinkSync()</code>删除文件</p>
+<ul>
+<li>参数为要删除的文件的路径</li>
+</ul>
+</li>
+<li><p><code>fs.existsSync()</code>判断资源（文件或目录）是否存在</p>
+<ul>
+<li>参数为要判断的文件的路径</li>
+<li>返回值为布尔值</li>
+<li>一般在删除文件之前做判断</li>
+</ul>
+</li>
+<li><p><code>fs.statSync()</code>判断该资源是文件还是目录</p>
+<ul>
+<li>参数为要判断的路径</li>
+<li>返回值为一个对象<ul>
+<li>对象中<code>isFile()</code>为 true 则为文件</li>
+<li>对象中<code>isDirectory</code>为 true 则为目录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>关于目录的方法</p>
+</blockquote>
+<ol>
+<li><p>创建目录</p>
+<ul>
+<li><code>fs.mkdirSync(&#39;./files&#39;)</code></li>
+</ul>
+</li>
+<li><p>读取目录（一级目录）</p>
+<ul>
+<li><code>fs.readdirSync(&#39;./files&#39;)</code>返回的是一个数组<code>[&#39;内容名称（test.js）&#39;]</code></li>
+<li>如果是空目录，则返回空数组</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><b style="color:#f42">注意 path 模块的使用——拼接路径的技巧</b></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>)</span><br><span class="line">path.join(<span class="string">&quot;./css&quot;</span>, <span class="string">&quot;index.css&quot;</span>)</span><br><span class="line"><span class="comment">// 按照路径的规则来拼接路径-&gt; css\index.css  可拼接无数片段</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><b style="color:#f42">注意 node 的常量__direname 的使用——获取绝对路径</b><ul>
+<li>出现在模块中时，代表的是当前文件所在的目录的绝对路径</li>
+</ul>
+</li>
+<li><b style="color:#f42">可以结合 path 与__direname 两者来得到想要的文件的绝对路径</b></li>
+</ul>
+<ol start="3">
+<li>删除目录<ul>
+<li><code>fs.rmdirSync(&#39;./files&#39;)</code></li>
+<li>该方法只能删除空目录</li>
+</ul>
+</li>
+</ol>
+<h2 id="五：导入导出细节和原理"><a href="#五：导入导出细节和原理" class="headerlink" title="五：导入导出细节和原理"></a><b style="color:skyblue">五：导入导出细节和原理</b></h2><h3 id="1-导入-require-细节"><a href="#1-导入-require-细节" class="headerlink" title="1.导入 require 细节"></a><b style="color:pink">1.导入 require 细节</b></h3><ol>
+<li><p>require 是 node 环境中提供的一个方法，作用是引入模块（在浏览器环境是没有该方法的）</p>
+</li>
+<li><p>require 函数接受的参数是字符串形式的（路径或模块名）</p>
+</li>
+<li><p>路径分为相对路径和绝对路径</p>
+<ul>
+<li><p>绝对路径一般都是从盘符开始，使用__direname 和 path.join 来获取</p>
+</li>
+<li><p>相对路径</p>
+<ul>
+<li>如果是 require 引用路径那么相对路径的参照目录就永远是当前调用 require 方法的文件所在的目录</li>
+<li>其他相对路径的参考目录永远都是工作目录（命令行所在的目录，工作目录是可变的，所以尽量使用绝对路径）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>如果接受的参数是模块名的话，那么引用的就不是模块（文件）而是一个“包”，就会按照包的规则来加载</p>
+</li>
+</ol>
+<h3 id="2-导出-export-细节跟原理"><a href="#2-导出-export-细节跟原理" class="headerlink" title="2.导出 export 细节跟原理"></a><b style="color:pink">2.导出 export 细节跟原理</b></h3><ol>
+<li>导出的细节<ul>
+<li>Module.exports 是 node 环境提供的一个对象，作用是导出模块（在浏览器中是没有该对象的）</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module.exports应该是如下</span></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">  <span class="built_in">exports</span>: &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>node 中其实还存在一个对象 exports 可以导出对象<ul>
+<li><code>module.exports === exports</code> 为 true，即代表这两个地址指向同一个对象</li>
+<li>但是在真正导出时，识别的是 module.exports</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">  <span class="built_in">exports</span>: &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span> = <span class="built_in">module</span>.exports&#123;&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = a<span class="comment">//可以导出a，require返回的是1</span></span><br><span class="line"><span class="built_in">exports</span>.a = a<span class="comment">//可以导出a，require返回的是&#123;a:1&#125;</span></span><br><span class="line"><span class="built_in">module</span>.exports.a = a<span class="comment">//可以导出a,，require返回的是&#123;a:1&#125;</span></span><br><span class="line"><span class="built_in">exports</span> = a <span class="comment">//不可导出a</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>导出多个内容<ul>
+<li><code>module.exports = &#123;add,sub&#125;</code></li>
+<li><code>exports.add = add;exports.sub = sub</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="六：node-中的包"><a href="#六：node-中的包" class="headerlink" title="六：node 中的包"></a><b style="color:skyblue">六：node 中的包</b></h2><ol>
+<li>包就是把多个 node 模块集合在一起，但是需要遵循相关的规则，一个集合了 js 文件（入口文件）的目录就是一个包</li>
+<li>包相关的规则：在项目目录根部创建<code>package.json</code>文件，该文件中有众多属性，这些属性赋予了包额外的特性，一般使用 <code>npm init</code> 创建，<code>main</code>属性表示入口文件。</li>
+<li>引入包<ul>
+<li>在 require 方法中只需要写入包的路径，在包中会默认查找<code>index.js</code>文件，如果没有，则会查找 <code>package.json</code> 中的 main 字段对应的文件，如果都没有则会报错</li>
+<li><code>const xxx = require(&#39;./xxx&#39;)</code></li>
+</ul>
+</li>
+<li>以包名引入包<ul>
+<li>例如 fs 模块</li>
+<li>包必须存入 <code>node_modules</code> 文件夹中</li>
+<li>包必须符和包的规范</li>
+</ul>
+</li>
+<li>通过包名去查找包的一些规则<ul>
+<li>在当前目录下 node_modules 下查找包名的目录</li>
+<li>按照包的规则去加载包（同上）</li>
+<li>如果没找到对应的目录，继续向上一层按照该规则去查找，直到找到盘符的根目录 C/,D/</li>
+<li>如果在根目录还没找到，那么就会去找全局环境变量 NODE_PATH 中查找</li>
+</ul>
+</li>
+</ol>
+<h2 id="六：npm-的初步使用"><a href="#六：npm-的初步使用" class="headerlink" title="六：npm 的初步使用"></a><b style="color:skyblue">六：npm 的初步使用</b></h2><ul>
+<li>npm 介绍：npm 属于 node 的一个模块，node package manger（node 的包管理器）</li>
+<li>通过命令行使用 （npm install 包名）<ul>
+<li>从 npm 官网里安装</li>
+<li>详细安装及配置可查看：<a href="https://codeweeei.github.io/blog/hello-world/">https://codeweeei.github.io/blog/hello-world/</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-npm-管理包的一些命令"><a href="#1-npm-管理包的一些命令" class="headerlink" title="1.npm 管理包的一些命令"></a><b style="color:pink">1.npm 管理包的一些命令</b></h3><ol>
+<li>创建包的描述文件 <code>package.json(npm init)</code></li>
+<li>安装包的命令 （npm install 包名）<ol>
+<li>从 npm 的官方网站下载</li>
+<li>安装到指定的位置（分全局安装和本地安装）</li>
+<li>全局安装 <code>npm install packageName -g</code></li>
+<li>本地安装（生产环境） <code>npm install packageName --save</code> /<code>npm install packageName -S</code></li>
+<li>本地安装（开发环境） <code>npm install packageName --save-dev</code> / <code>npm install packageName -D</code><ul>
+<li>本地安装的包被安装在工作目录的 node_modules 下</li>
+<li>生产环境（上线后需要）的包在 package.json 里的”dependencies”字段里添加依赖</li>
+<li>开发环境（上线后不需要）的包在 package.json 里的”devDependencies”字段里添加依赖</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>快速安装（<code>npm install</code>）<ol>
+<li>在有 package.json 的工作目录下执行</li>
+<li>检测 package.json 中的 depdencies 和 devDepdencies 两个字段，并且全部安装它们所保存的包</li>
+</ol>
+</li>
+<li>卸载包<ul>
+<li><code>npm uninstall packageName</code></li>
+</ul>
+</li>
+<li>设置和查看全局包的安装位置的命令<ul>
+<li><code>npm config get prefix</code></li>
+<li><code>npm config set prefix 新的目录地址</code></li>
+</ul>
+</li>
+<li>设置和查看我们的下载源<ul>
+<li><code>npm config get registry</code></li>
+<li><code>npm config set registy 下载地址</code></li>
+<li>淘宝的镜像地址 <a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org/</a></li>
+</ul>
+</li>
+</ol>
+<h2 id="七：node-环境中如何运行-es6-模块语法"><a href="#七：node-环境中如何运行-es6-模块语法" class="headerlink" title="七：node 环境中如何运行 es6 模块语法"></a><b style="color:skyblue">七：node 环境中如何运行 es6 模块语法</b></h2><ul>
+<li>使用 babel 转码成 es5，但是它这针对 js 文件，其他类型无法迁移<br>node 环境几乎支持除了 es 模块之外所有的语法，babel 提供了一个<code>@babel/register</code> 的模块<br>该模块的作用是在运行时解决 node 不支持 es6 的问题</li>
+<li>使用用法：<br>在运行入口文件的时候，添加一个启动模块（entry.js),写入以下内容</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&quot;@babel/register&quot;</span>)(&#123;</span><br><span class="line">  <span class="comment">//在运行时，会去转码对应的es6模块语法为commonjs语法</span></span><br><span class="line">  plugins: [<span class="string">&quot;@babel/plugin-transform-modules-commonjs&quot;</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 加载目标文件</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./index&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 node 中运行 entry.js 即可</li>
+</ul>
+<h2 id="八：node-中引入-url-模块及-querystring-模块"><a href="#八：node-中引入-url-模块及-querystring-模块" class="headerlink" title="八：node 中引入 url 模块及 querystring 模块"></a><b style="color:skyblue">八：node 中引入 url 模块及 querystring 模块</b></h2><ul>
+<li>url 地址详解<ul>
+<li>可参见 <a href="https://codeweeei.github.io/blog/url%E5%9C%B0%E5%9D%80%E8%AF%A6%E8%A7%A3/">https://codeweeei.github.io/blog/url%E5%9C%B0%E5%9D%80%E8%AF%A6%E8%A7%A3/</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-1：url-parse-39-url-字符串-39-解析-url-路径——url-模块"><a href="#例子-1：url-parse-39-url-字符串-39-解析-url-路径——url-模块" class="headerlink" title="例子 1：url.parse(&#39;url 字符串&#39;)解析 url 路径——url 模块"></a>例子 1：<code>url.parse(&#39;url 字符串&#39;)</code>解析 url 路径——url 模块</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">&quot;url&quot;</span>)</span><br><span class="line"><span class="comment">//符和url地址规则的字符串</span></span><br><span class="line"><span class="keyword">const</span> urlStr =</span><br><span class="line">  <span class="string">&quot;http://140.143.201.230:8888/public/course/course?id=123&amp;pwd=45678#home&quot;</span></span><br><span class="line"><span class="comment">//将字符串解析为url对象</span></span><br><span class="line"><span class="keyword">const</span> oUrl = url.parse(urlStr)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(oUrl)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Url &#123;</span><br><span class="line">  protocol: <span class="string">&#x27;http:&#x27;</span>,</span><br><span class="line">  slashes: <span class="literal">true</span>,</span><br><span class="line">  auth: <span class="literal">null</span>,</span><br><span class="line">  host: <span class="string">&#x27;140.143.201.230:8888&#x27;</span>,</span><br><span class="line">  port: <span class="string">&#x27;8888&#x27;</span>,</span><br><span class="line">  hostname: <span class="string">&#x27;140.143.201.230&#x27;</span>,</span><br><span class="line">  hash: <span class="string">&#x27;#home&#x27;</span>,</span><br><span class="line">  search: <span class="string">&#x27;?id=123&amp;pwd=45678&#x27;</span>,</span><br><span class="line">  query: <span class="string">&#x27;id=123&amp;pwd=45678&#x27;</span>,</span><br><span class="line">  pathname: <span class="string">&#x27;/public/course/course&#x27;</span>,</span><br><span class="line">  path: <span class="string">&#x27;/public/course/course?id=123&amp;pwd=45678&#x27;</span>,</span><br><span class="line">  href: <span class="string">&#x27;http://140.143.201.230:8888/public/course/course?id=123&amp;pwd=45678#home&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子-2：url-parse-39-url-字符串-39-解析-查询字符串-query——querystring-模块"><a href="#例子-2：url-parse-39-url-字符串-39-解析-查询字符串-query——querystring-模块" class="headerlink" title="例子 2：url.parse(&#39;url 字符串&#39;)解析 查询字符串 query——querystring 模块"></a>例子 2：<code>url.parse(&#39;url 字符串&#39;)</code>解析 查询字符串 query——querystring 模块</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">&quot;url&quot;</span>)</span><br><span class="line"><span class="comment">//引入querystring模块</span></span><br><span class="line"><span class="keyword">const</span> qs = <span class="built_in">require</span>(<span class="string">&quot;querystring&quot;</span>)</span><br><span class="line"><span class="comment">//符和url地址规则的字符串</span></span><br><span class="line"><span class="keyword">const</span> urlStr =</span><br><span class="line">  <span class="string">&quot;http://140.143.201.230:8888/public/course/course?id=123&amp;pwd=45678#home&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> oUrl = url.parse(urlStr)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> oQs = qs.parse(oUrl.query)</span><br><span class="line"><span class="built_in">console</span>.log(oQs)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  id:<span class="string">&#x27;123&#x27;</span>,</span><br><span class="line">  pwd:<span class="string">&#x27;45678&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/Node入门与fs模块的基本使用.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Node-%E5%85%A5%E9%97%A8"><span class="toc-number">1.</span> <span class="toc-text">Node 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9Anode-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">一：node 基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9Anode-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%8F%8A-node-%E4%B8%AD%E8%BF%90%E8%A1%8C-js-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">二：node 环境搭建及 node 中运行 js 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9Anode-%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="toc-number">1.3.</span> <span class="toc-text">三：node 中的模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9Afs-%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E6%A0%B8%E5%BF%83%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四：fs 模块的使用（核心）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%EF%BC%9A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%BB%86%E8%8A%82%E5%92%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">五：导入导出细节和原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AF%BC%E5%85%A5-require-%E7%BB%86%E8%8A%82"><span class="toc-number">1.5.1.</span> <span class="toc-text">1.导入 require 细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AF%BC%E5%87%BA-export-%E7%BB%86%E8%8A%82%E8%B7%9F%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.导出 export 细节跟原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9Anode-%E4%B8%AD%E7%9A%84%E5%8C%85"><span class="toc-number">1.6.</span> <span class="toc-text">六：node 中的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%EF%BC%9Anpm-%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="toc-number">1.7.</span> <span class="toc-text">六：npm 的初步使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-npm-%E7%AE%A1%E7%90%86%E5%8C%85%E7%9A%84%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.npm 管理包的一些命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%EF%BC%9Anode-%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C-es6-%E6%A8%A1%E5%9D%97%E8%AF%AD%E6%B3%95"><span class="toc-number">1.8.</span> <span class="toc-text">七：node 环境中如何运行 es6 模块语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%EF%BC%9Anode-%E4%B8%AD%E5%BC%95%E5%85%A5-url-%E6%A8%A1%E5%9D%97%E5%8F%8A-querystring-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.</span> <span class="toc-text">八：node 中引入 url 模块及 querystring 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-1%EF%BC%9Aurl-parse-39-url-%E5%AD%97%E7%AC%A6%E4%B8%B2-39-%E8%A7%A3%E6%9E%90-url-%E8%B7%AF%E5%BE%84%E2%80%94%E2%80%94url-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.1.</span> <span class="toc-text">例子 1：url.parse(&#39;url 字符串&#39;)解析 url 路径——url 模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-2%EF%BC%9Aurl-parse-39-url-%E5%AD%97%E7%AC%A6%E4%B8%B2-39-%E8%A7%A3%E6%9E%90-%E6%9F%A5%E8%AF%A2%E5%AD%97%E7%AC%A6%E4%B8%B2-query%E2%80%94%E2%80%94querystring-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.9.2.</span> <span class="toc-text">例子 2：url.parse(&#39;url 字符串&#39;)解析 查询字符串 query——querystring 模块</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&text=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&is_video=false&description=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Node入门篇——fs、path、url等核心模块的基本使用&body=Check out this article: https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&name=Node入门篇——fs、path、url等核心模块的基本使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Node%E5%85%A5%E9%97%A8%E4%B8%8Efs%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&t=Node入门篇——fs、path、url等核心模块的基本使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
