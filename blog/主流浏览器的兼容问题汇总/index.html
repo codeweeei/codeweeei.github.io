@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="主流浏览器的兼容问题汇总作者：白小明链接：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6844903493161975822 来源：掘金 著作权归作者所有。  目录  Normalize.css html5shiv.js respond.js picturefill.js IE 条件注释 IE 属性过滤器（较为常用的 hack 方法） 浏览器 CSS 兼容前缀 a 标签的几种 CSS 状态的顺序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="主流浏览器的兼容问题汇总">
+<meta property="og:url" content="https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="主流浏览器的兼容问题汇总作者：白小明链接：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6844903493161975822 来源：掘金 著作权归作者所有。  目录  Normalize.css html5shiv.js respond.js picturefill.js IE 条件注释 IE 属性过滤器（较为常用的 hack 方法） 浏览器 CSS 兼容前缀 a 标签的几种 CSS 状态的顺序">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-03T15:55:01.456Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="浏览器">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>主流浏览器的兼容问题汇总</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/vue2-editor%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/%E8%B7%A8%E5%9F%9F%E7%9B%B8%E5%85%B3%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&text=主流浏览器的兼容问题汇总"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&is_video=false&description=主流浏览器的兼容问题汇总"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=主流浏览器的兼容问题汇总&body=Check out this article: https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&name=主流浏览器的兼容问题汇总&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&t=主流浏览器的兼容问题汇总"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="toc-number">1.</span> <span class="toc-text">主流浏览器的兼容问题汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Normalize-css"><span class="toc-number">1.1.</span> <span class="toc-text">1.Normalize.css</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-html5shiv-js"><span class="toc-number">1.2.</span> <span class="toc-text">2.html5shiv.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-respond-js"><span class="toc-number">1.3.</span> <span class="toc-text">3.respond.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-picturefill-js"><span class="toc-number">1.4.</span> <span class="toc-text">4.picturefill.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ie-%E6%9D%A1%E4%BB%B6%E6%B3%A8%E9%87%8A"><span class="toc-number">1.5.</span> <span class="toc-text">5. ie 条件注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-IE-%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88%E8%BE%83%E4%B8%BA%E5%B8%B8%E7%94%A8%E7%9A%84-hack-%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">6. IE 属性过滤器（较为常用的 hack 方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%B5%8F%E8%A7%88%E5%99%A8-CSS-%E5%85%BC%E5%AE%B9%E5%89%8D%E7%BC%80"><span class="toc-number">1.7.</span> <span class="toc-text">7.浏览器 CSS 兼容前缀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E5%87%A0%E7%A7%8D-CSS-%E7%8A%B6%E6%80%81%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.8.</span> <span class="toc-text">8.a 标签的几种 CSS 状态的顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3-Placeholder"><span class="toc-number">1.9.</span> <span class="toc-text">9.完美解决 Placeholder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.10.</span> <span class="toc-text">10.清除浮动 最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-BFC-%E8%A7%A3%E5%86%B3%E8%BE%B9%E8%B7%9D%E9%87%8D%E5%8F%A0%E9%97%AE%E9%A2%98"><span class="toc-number">1.11.</span> <span class="toc-text">11.BFC 解决边距重叠问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JQurey-%E7%89%88%E6%9C%AC%E6%94%AF%E6%8C%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.12.</span> <span class="toc-text">JQurey 版本支持问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML-%E8%AF%AD%E4%B9%89%E5%8C%96"><span class="toc-number">1.13.</span> <span class="toc-text">HTML 语义化</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        主流浏览器的兼容问题汇总
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-02-25T00:00:00.000Z" itemprop="datePublished">2021-02-25</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Javascript/">Javascript</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="主流浏览器的兼容问题汇总"><a href="#主流浏览器的兼容问题汇总" class="headerlink" title="主流浏览器的兼容问题汇总"></a>主流浏览器的兼容问题汇总</h2><p>作者：白小明<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903493161975822">https://juejin.cn/post/6844903493161975822</a></p>
+<p>来源：掘金</p>
+<p>著作权归作者所有。</p>
+<hr>
+<p>目录</p>
+<ul>
+<li><a href="#1">Normalize.css</a></li>
+<li><a href="#2">html5shiv.js</a></li>
+<li><a href="#3">respond.js</a></li>
+<li><a href="#4">picturefill.js</a></li>
+<li><a href="#5">IE 条件注释</a></li>
+<li><a href="#6">IE 属性过滤器（较为常用的 hack 方法）</a></li>
+<li><a href="#7">浏览器 CSS 兼容前缀</a></li>
+<li><a href="#8">a 标签的几种 CSS 状态的顺序</a></li>
+<li><a href="#9">完美解决 Placeholder</a></li>
+<li><a href="#10">清除浮动 最佳实践</a></li>
+</ul>
+<h3 id="1-Normalize-css"><a href="#1-Normalize-css" class="headerlink" title="1.Normalize.css"></a><b style="color:#4bacc6" id="1">1.Normalize.css</b></h3><ul>
+<li>不同的浏览器的默认样式是不同的，可以引用 Normalize.css 来抹平这些不同，也可以定制属于自己业务的 reset.css</li>
+<li>简单粗暴：<code>*&#123;margin:0;padding:0;&#125;</code></li>
+</ul>
+<h3 id="2-html5shiv-js"><a href="#2-html5shiv-js" class="headerlink" title="2.html5shiv.js"></a><b style="color:#4bacc6" id="2">2.html5shiv.js</b></h3><ul>
+<li>解决 ie9 以下浏览器对 html5 新增标签不识别的问题。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--[if lt IE 9]&gt;</span></span><br><span class="line"><span class="comment">  &lt;script</span></span><br><span class="line"><span class="comment">    type=&quot;text/javascript&quot;</span></span><br><span class="line"><span class="comment">    src=&quot;https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js&quot;</span></span><br><span class="line"><span class="comment">  &gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-respond-js"><a href="#3-respond-js" class="headerlink" title="3.respond.js"></a><b style="color:#4bacc6" id="3">3.respond.js</b></h3><ul>
+<li>解决 <code>ie9</code> 以下浏览器不支持 <code>CSS3 Media</code> Query 的问题。</li>
+<li><code>&lt;script src=&quot;https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;</code></li>
+</ul>
+<h3 id="4-picturefill-js"><a href="#4-picturefill-js" class="headerlink" title="4.picturefill.js"></a><b style="color:#4bacc6" id="4">4.picturefill.js</b></h3><ul>
+<li>解决 <code>IE 9 10 11</code> 等浏览器不支持 <code>&lt;picture&gt;</code> 标签的问题</li>
+<li><code>&lt;script src=&quot;https://cdn.bootcss.com/picturefill/3.0.3/picturefill.min.js&quot;&gt;&lt;/script&gt;</code></li>
+</ul>
+<h3 id="5-ie-条件注释"><a href="#5-ie-条件注释" class="headerlink" title="5. ie 条件注释"></a><b style="color:#4bacc6" id="5">5. ie 条件注释</b></h3><ul>
+<li><p>IE 的条件注释仅仅针对 IE 浏览器，对其他浏览器无效</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lt</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>lte</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>gte</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>!</td>
+<td>不等于</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="6-IE-属性过滤器（较为常用的-hack-方法）"><a href="#6-IE-属性过滤器（较为常用的-hack-方法）" class="headerlink" title="6. IE 属性过滤器（较为常用的 hack 方法）"></a><b style="color:#4bacc6" id="6">6. IE 属性过滤器（较为常用的 hack 方法）</b></h3><ul>
+<li><p>针对不同的 IE 浏览器，可以使用不同的字符来对特定的版本的 IE 浏览器进行样式控制</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>例子</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>_</td>
+<td>_color:red;</td>
+<td>只有 IE6 可以识别</td>
+</tr>
+<tr>
+<td>*</td>
+<td>*color:red;</td>
+<td>IE6/7 可以识别</td>
+</tr>
+<tr>
+<td>\9</td>
+<td>color:red\9;</td>
+<td>IE8 及以下浏览器可以识别</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="7-浏览器-CSS-兼容前缀"><a href="#7-浏览器-CSS-兼容前缀" class="headerlink" title="7.浏览器 CSS 兼容前缀"></a><b style="color:#4bacc6" id="7">7.浏览器 CSS 兼容前缀</b></h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-o-transform</span>: <span class="selector-tag">rotate</span>(7<span class="selector-tag">deg</span>); // <span class="selector-tag">Opera</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">-ms-transform</span>: <span class="selector-tag">rotate</span>(7<span class="selector-tag">deg</span>); // <span class="selector-tag">IE</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">-moz-transform</span>: <span class="selector-tag">rotate</span>(7<span class="selector-tag">deg</span>); // <span class="selector-tag">Firefox</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">-webkit-transform</span>: <span class="selector-tag">rotate</span>(7<span class="selector-tag">deg</span>); // <span class="selector-tag">Chrome</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">rotate</span>(7<span class="selector-tag">deg</span>); // 统一标识语句</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-a-标签的几种-CSS-状态的顺序"><a href="#8-a-标签的几种-CSS-状态的顺序" class="headerlink" title="8.a 标签的几种 CSS 状态的顺序"></a><b style="color:#4bacc6" id="8">8.a 标签的几种 CSS 状态的顺序</b></h3><ul>
+<li><p>很多新人在写 a 标签的样式，会疑惑为什么写的样式没有效果，或者点击超链接后，hover、active 样式没有效果，其实只是写的样式被覆盖了。</p>
+</li>
+<li><p>正确的 a 标签顺序应该是：lvha</p>
+<ul>
+<li>link:平常的状态</li>
+<li>visited:被访问过之后</li>
+<li>hover:鼠标放到链接上的时候</li>
+<li>active:链接被按下的时候</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-完美解决-Placeholder"><a href="#9-完美解决-Placeholder" class="headerlink" title="9.完美解决 Placeholder"></a><b style="color:#4bacc6" id="9">9.完美解决 Placeholder</b></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;input</span><br><span class="line">  type=&quot;text&quot;</span><br><span class="line">  value=&quot;Name *&quot;</span><br><span class="line">  onFocus=&quot;this.value = &#x27;&#x27;;&quot;</span><br><span class="line">  onBlur=&quot;if (this.value == &#x27;&#x27;) &#123;this.value = &#x27;Name *&#x27;;&#125;&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-清除浮动-最佳实践"><a href="#10-清除浮动-最佳实践" class="headerlink" title="10.清除浮动 最佳实践"></a><b style="color:#4bacc6" id="10">10.清除浮动 最佳实践</b></h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.fl</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.fr</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="attribute">visibility</span>: hidden;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.clearfix</span> &#123;</span><br><span class="line">  <span class="attribute">zoom</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-BFC-解决边距重叠问题"><a href="#11-BFC-解决边距重叠问题" class="headerlink" title="11.BFC 解决边距重叠问题"></a><b style="color:#4bacc6" id="11">11.BFC 解决边距重叠问题</b></h3><ul>
+<li>当相邻元素都设置了 margin 边距时，margin 将取最大值，舍弃小值。为了不让边距重叠，可以给子元素加一个父元素，并设置该父元素为 BFC：overflow: hidden;</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">id</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum dolor sit.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;overflow: hidden;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum dolor sit.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum dolor sit.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="JQurey-版本支持问题"><a href="#JQurey-版本支持问题" class="headerlink" title="JQurey 版本支持问题"></a>JQurey 版本支持问题</h3><ul>
+<li><b style="color:#4bacc6">jQuery 2 版本以上是不支持 IE6，7，8 浏览器</b></li>
+<li>使用的是 IE6，7，8 浏览器的话，你就得选择使用 jQuery1.9 版本的，或者，你也可以通过条件注释在使用 IE6，7，8 浏览器的时候只允许包含 jQuery 1.9.</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 条件注释 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--[if lte IE 8]&gt;</span></span><br><span class="line"><span class="comment">  IE8以及IE8以下版本可识别</span></span><br><span class="line"><span class="comment">  &lt;script src=&quot;jquery-1.9.0.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">&lt;![endif]--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--[if gte IE 9]&gt;</span></span><br><span class="line"><span class="comment">  IE9以及IE9以上版本可识别</span></span><br><span class="line"><span class="comment">  &lt;script src=&quot;jquery-2.0.0.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML-语义化"><a href="#HTML-语义化" class="headerlink" title="HTML 语义化"></a>HTML 语义化</h3><ul>
+<li><p>HTML 语义化就是页面去掉样式或者加载失败（断网）的时候能够让页面呈现出清晰的结构。HTML5 新增了好多标签，例如：header、footer、nav、menu、section、article 等等，我们单单从字面上理解，就知道标签的含义。在写页面的时候，我们可以直接引用这些标签，不需要再用没有任何含义的 div 标签了，对于机器可以识别，对于开发人员，很容易明白，这就是 HTML 语义化。</p>
+</li>
+<li><p>HTML 语义化的好处有：有利于 SEO 优化，利于被搜索引擎收录，更便于搜索引擎的爬虫程序来识别；便于项目的开发及维护，使 HTML 代码更具有可读性，便于其他设备解析。</p>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/主流浏览器的兼容问题汇总.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="toc-number">1.</span> <span class="toc-text">主流浏览器的兼容问题汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Normalize-css"><span class="toc-number">1.1.</span> <span class="toc-text">1.Normalize.css</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-html5shiv-js"><span class="toc-number">1.2.</span> <span class="toc-text">2.html5shiv.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-respond-js"><span class="toc-number">1.3.</span> <span class="toc-text">3.respond.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-picturefill-js"><span class="toc-number">1.4.</span> <span class="toc-text">4.picturefill.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ie-%E6%9D%A1%E4%BB%B6%E6%B3%A8%E9%87%8A"><span class="toc-number">1.5.</span> <span class="toc-text">5. ie 条件注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-IE-%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88%E8%BE%83%E4%B8%BA%E5%B8%B8%E7%94%A8%E7%9A%84-hack-%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">6. IE 属性过滤器（较为常用的 hack 方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%B5%8F%E8%A7%88%E5%99%A8-CSS-%E5%85%BC%E5%AE%B9%E5%89%8D%E7%BC%80"><span class="toc-number">1.7.</span> <span class="toc-text">7.浏览器 CSS 兼容前缀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E5%87%A0%E7%A7%8D-CSS-%E7%8A%B6%E6%80%81%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.8.</span> <span class="toc-text">8.a 标签的几种 CSS 状态的顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3-Placeholder"><span class="toc-number">1.9.</span> <span class="toc-text">9.完美解决 Placeholder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.10.</span> <span class="toc-text">10.清除浮动 最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-BFC-%E8%A7%A3%E5%86%B3%E8%BE%B9%E8%B7%9D%E9%87%8D%E5%8F%A0%E9%97%AE%E9%A2%98"><span class="toc-number">1.11.</span> <span class="toc-text">11.BFC 解决边距重叠问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JQurey-%E7%89%88%E6%9C%AC%E6%94%AF%E6%8C%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.12.</span> <span class="toc-text">JQurey 版本支持问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML-%E8%AF%AD%E4%B9%89%E5%8C%96"><span class="toc-number">1.13.</span> <span class="toc-text">HTML 语义化</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&text=主流浏览器的兼容问题汇总"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&is_video=false&description=主流浏览器的兼容问题汇总"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=主流浏览器的兼容问题汇总&body=Check out this article: https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&title=主流浏览器的兼容问题汇总"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&name=主流浏览器的兼容问题汇总&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E4%B8%BB%E6%B5%81%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/&t=主流浏览器的兼容问题汇总"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
