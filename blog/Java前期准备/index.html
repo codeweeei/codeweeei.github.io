@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Java 前期准备一：Java 开发场景 Java 开发场景 1——SSM Java 开发场景 2——Android 核心代码 Java 开发场景 3——大数据  二：Java 应用领域 企业级应用 大企业的软件系统 各种类型的网站   Android 平台的应用 移动领域应用 消费和嵌入式领域，是指在各种小型设备上的应用    三：Java 技术体系平台 Java SE 标准版 Java EE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java前期准备">
+<meta property="og:url" content="https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="Java 前期准备一：Java 开发场景 Java 开发场景 1——SSM Java 开发场景 2——Android 核心代码 Java 开发场景 3——大数据  二：Java 应用领域 企业级应用 大企业的软件系统 各种类型的网站   Android 平台的应用 移动领域应用 消费和嵌入式领域，是指在各种小型设备上的应用    三：Java 技术体系平台 Java SE 标准版 Java EE">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-11T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-11T07:39:04.801Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="初始java">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Java前期准备</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/vue2-editor%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&text=Java前期准备"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&is_video=false&description=Java前期准备"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java前期准备&body=Check out this article: https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&name=Java前期准备&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&t=Java前期准备"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">Java 前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9AJava-%E5%BC%80%E5%8F%91%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">一：Java 开发场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9AJava-%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F"><span class="toc-number">1.2.</span> <span class="toc-text">二：Java 应用领域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9AJava-%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.3.</span> <span class="toc-text">三：Java 技术体系平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">四：基础知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E7%9A%84%E9%87%8D%E8%A6%81%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">Java 的重要特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8A%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">Java 运行机制及运行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-JRE-JVM-%E7%9A%84%E5%8C%85%E5%90%AB%E5%85%B3%E7%B3%BB"><span class="toc-number">1.4.3.</span> <span class="toc-text">JDK,JRE,JVM 的包含关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.4.</span> <span class="toc-text">JDK 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">1.4.5.</span> <span class="toc-text">Java 开发工具</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java前期准备
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-03-11T00:00:00.000Z" itemprop="datePublished">2021-03-11</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%88%9D%E5%A7%8Bjava/" rel="tag">初始java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Java-前期准备"><a href="#Java-前期准备" class="headerlink" title="Java 前期准备"></a>Java 前期准备</h1><h2 id="一：Java-开发场景"><a href="#一：Java-开发场景" class="headerlink" title="一：Java 开发场景"></a>一：Java 开发场景</h2><ul>
+<li>Java 开发场景 1——SSM</li>
+<li>Java 开发场景 2——Android 核心代码</li>
+<li>Java 开发场景 3——大数据</li>
+</ul>
+<h2 id="二：Java-应用领域"><a href="#二：Java-应用领域" class="headerlink" title="二：Java 应用领域"></a>二：Java 应用领域</h2><ul>
+<li>企业级应用<ul>
+<li>大企业的软件系统</li>
+<li>各种类型的网站</li>
+</ul>
+</li>
+<li>Android 平台的应用</li>
+<li>移动领域应用<ul>
+<li>消费和嵌入式领域，是指在各种小型设备上的应用</li>
+</ul>
+</li>
+</ul>
+<h2 id="三：Java-技术体系平台"><a href="#三：Java-技术体系平台" class="headerlink" title="三：Java 技术体系平台"></a>三：Java 技术体系平台</h2><ul>
+<li>Java SE 标准版</li>
+<li>Java EE 企业版</li>
+<li>Java ME 小型版</li>
+</ul>
+<h2 id="四：基础知识点"><a href="#四：基础知识点" class="headerlink" title="四：基础知识点"></a>四：基础知识点</h2><ul>
+<li>什么是程序：计算机执行某些操作或解决某个问题而编写的一系列有序指令的集合</li>
+</ul>
+<h3 id="Java-的重要特点"><a href="#Java-的重要特点" class="headerlink" title="Java 的重要特点"></a>Java 的重要特点</h3><ul>
+<li>Java 是面向对象的</li>
+<li>强类型机制，异常处理，垃圾的自动收集</li>
+<li>跨平台性（Java 虚拟机机制）<ul>
+<li>.java 文件编译成.class 文件，然后可在 windows 和 Linux 等多个系统上运行</li>
+</ul>
+</li>
+<li>解释性<ul>
+<li>编译后的代码，不能直接被机器执行，需要解释器解释才能被机器执行，编译性语言，编译后的代码，可以直接被机器执行（c/c++）</li>
+</ul>
+</li>
+</ul>
+<h3 id="Java-运行机制及运行过程"><a href="#Java-运行机制及运行过程" class="headerlink" title="Java 运行机制及运行过程"></a><b style="color:skyblue">Java 运行机制及运行过程</b></h3><ul>
+<li>因为有 JVM，才能支撑 Java 程序在三个操作系统中都可以执行，所以需要安装 JVM（存在 jdk 中）</li>
+<li>JVM 是一个虚拟的计算机，具有指令集并使用不同的存储区域，负责执行指令，管理数据，内存，寄存器，不同的平台系统有不同的 JVM，JVN 存在于 jdk 中</li>
+<li><strong>JDK</strong>：Java 开发工具包，=JRE + java 开发工具（java，javac 等） ，而 JRE（Java 运行环境）=JVM + Java 核心类库</li>
+</ul>
+<h3 id="JDK-JRE-JVM-的包含关系"><a href="#JDK-JRE-JVM-的包含关系" class="headerlink" title="JDK,JRE,JVM 的包含关系"></a><b style="color:skyblue">JDK,JRE,JVM 的包含关系</b></h3><ul>
+<li>JDK = JRE + 开发工具包（javac，java 等编译工具）</li>
+<li>JRE = JVM + java SE 标准类库</li>
+<li>JDK = JVM + java SE 标准类库 + 开发工具包</li>
+<li>如果只需要运行 Java，只需要安装 JRE</li>
+<li>安装 JDK：官网直接安装即可</li>
+</ul>
+<h3 id="JDK-配置"><a href="#JDK-配置" class="headerlink" title="JDK 配置"></a><b style="color:skyblue;">JDK 配置</b></h3><ul>
+<li>配置环境变量 path<ul>
+<li>理由：当前执行的程序在当前目录下如果不存在，win10 系统会在系统中已有的一个名为 path 的环境变量指定的目录中查找。如果仍未找到，会出现错误提示</li>
+<li>添加一个 JAVA_HOME 的环境变量（指向 JDK 的安装目录）</li>
+<li>编辑 PATH 环境变量，增加%JAVA_HOME%\bin，指向 bin 文件</li>
+</ul>
+</li>
+<li>配置好之后在任意目录里打开 cmd 窗口，输入 javac 等命令不会报错即可</li>
+</ul>
+<h3 id="Java-开发工具"><a href="#Java-开发工具" class="headerlink" title="Java 开发工具"></a>Java 开发工具</h3><ul>
+<li>sublime （初期推荐）</li>
+<li>IDEA （项目推荐）</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/Java前期准备.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">Java 前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%EF%BC%9AJava-%E5%BC%80%E5%8F%91%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">一：Java 开发场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%9AJava-%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F"><span class="toc-number">1.2.</span> <span class="toc-text">二：Java 应用领域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%9AJava-%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.3.</span> <span class="toc-text">三：Java 技术体系平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">四：基础知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E7%9A%84%E9%87%8D%E8%A6%81%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">Java 的重要特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8A%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">Java 运行机制及运行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-JRE-JVM-%E7%9A%84%E5%8C%85%E5%90%AB%E5%85%B3%E7%B3%BB"><span class="toc-number">1.4.3.</span> <span class="toc-text">JDK,JRE,JVM 的包含关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.4.</span> <span class="toc-text">JDK 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-number">1.4.5.</span> <span class="toc-text">Java 开发工具</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&text=Java前期准备"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&is_video=false&description=Java前期准备"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java前期准备&body=Check out this article: https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&title=Java前期准备"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&name=Java前期准备&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/&t=Java前期准备"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
