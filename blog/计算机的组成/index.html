@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="计算机的组成计算机基础 计算机诞生的目的就是取代人力  编程语言就相当于翻译官，翻译了人类所要传达的信息给计算机  人类使用编程语言来通知计算机来做事，这些代码文件存放在一起就组成了程序，用来操纵计算机  计算机硬件就是一堆废铁，程序就是计算机硬件的灵魂  计算机硬件以外的就是软件  操作系统  协调，管理，控制计算机硬件资源与应用（高级）软件资源的控制程序   应用软件  各种类似图形界面以方便">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机的组成">
+<meta property="og:url" content="https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="计算机的组成计算机基础 计算机诞生的目的就是取代人力  编程语言就相当于翻译官，翻译了人类所要传达的信息给计算机  人类使用编程语言来通知计算机来做事，这些代码文件存放在一起就组成了程序，用来操纵计算机  计算机硬件就是一堆废铁，程序就是计算机硬件的灵魂  计算机硬件以外的就是软件  操作系统  协调，管理，控制计算机硬件资源与应用（高级）软件资源的控制程序   应用软件  各种类似图形界面以方便">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/computer.png">
+<meta property="og:image" content="https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/cpu.png">
+<meta property="article:published_time" content="2021-04-08T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-08T07:34:14.679Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="计算机的组成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/computer.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>计算机的组成</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/%E8%A7%A3%E5%86%B3vant%E7%BB%84%E4%BB%B6tabs%E7%BB%84%E4%BB%B6%E9%80%89%E4%B8%AD%E4%B8%8B%E5%88%92%E7%BA%BF%E4%BD%8D%E7%BD%AE%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&text=计算机的组成"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&is_video=false&description=计算机的组成"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机的组成&body=Check out this article: https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&name=计算机的组成&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&t=计算机的组成"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">计算机的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">计算机基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">程序开发流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90"><span class="toc-number">1.3.</span> <span class="toc-text">计算机硬件组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6-5-%E5%A4%A7%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">1.3.1.</span> <span class="toc-text">计算机硬件 5 大组成部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">程序运行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">计算机启动流程</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        计算机的组成
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-08T00:00:00.000Z" itemprop="datePublished">2021-04-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/" rel="tag">计算机的组成</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="计算机的组成"><a href="#计算机的组成" class="headerlink" title="计算机的组成"></a>计算机的组成</h1><h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><ul>
+<li><p>计算机诞生的目的就是取代人力</p>
+</li>
+<li><p>编程语言就相当于翻译官，翻译了人类所要传达的信息给计算机</p>
+</li>
+<li><p>人类使用编程语言来通知计算机来做事，这些代码文件存放在一起就组成了程序，用来操纵计算机</p>
+</li>
+<li><p>计算机硬件就是一堆废铁，程序就是计算机硬件的灵魂</p>
+</li>
+<li><p>计算机硬件以外的就是软件</p>
+</li>
+<li><p>操作系统</p>
+<ul>
+<li>协调，管理，控制计算机硬件资源与应用（高级）软件资源的控制程序</li>
+</ul>
+</li>
+<li><p>应用软件</p>
+<ul>
+<li>各种类似图形界面以方便非程序员操作</li>
+</ul>
+</li>
+<li><p>一般图解</p>
+</li>
+</ul>
+<img src="/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/computer.png" class title="计算机">
+
+<ul>
+<li><p>文字解释</p>
+</li>
+<li><p>首先操纵计算机硬件（cpu,内存,硬盘等）的一系列方法由操作系统集成在操作系统的内核中，进一步封装成一系列的系统接口，此时对于操纵计算机的硬件来说对于小白用户而言还是有很大难度，此时，计算机专业大佬人员将这些系统接口进一步封装成各种解释器命令行（shell,cmd,python 等），此时一般的程序员就可以通过这些命令行来操纵计算机硬件了，然而对于小白用户还是难以接收，此时程序员用这些解释器语言开发了一些“傻瓜式”的图形操作界面，此时小白就可以使用这些应用来操纵计算机了。</p>
+<blockquote>
+<p>注：并非所有的应用软件开发都需要经过解释器</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="程序开发流程"><a href="#程序开发流程" class="headerlink" title="程序开发流程"></a>程序开发流程</h2><ul>
+<li>需求分析阶段</li>
+</ul>
+<ol>
+<li>首先公司想出一个产品，然后让产品经理 <code>PM</code> 经过市场，社会调研获取用户需求，后续经过产品内部评审，筛选出伪需求进行排除</li>
+<li>召集项目相关人员开需求讨论会，讲解产品原型图（样板），看看技术层面的可行性，最后讨论出最终合理的需求</li>
+</ol>
+<ul>
+<li>开发阶段</li>
+</ul>
+<ol>
+<li>明确需求之后分头行动评审，<code>UE</code> 交互设计-&gt;<code>UI</code> 页面设计-&gt;<code>FE</code> 前端开发客户端</li>
+<li><code>RD</code> 后端开发服务端将数据传递给前端显示，前后端需要达成一定的规范，对接接口，各自开发，联调自测</li>
+</ol>
+<ul>
+<li>测试阶段</li>
+</ul>
+<ol>
+<li>开发人员先自己对自己的代码进行审核，然后将代码提交给 <code>QA</code> 进行测试环境验证，沙箱环境验证，产品第一次验收</li>
+</ol>
+<ul>
+<li>上线阶段</li>
+</ul>
+<ol>
+<li><code>OP</code> 运维填写上线计划，上线准备工作，上线</li>
+<li>上线功能回测，测出问题，小问题马上改，大问题回滚</li>
+<li>产品第二次验收</li>
+<li>end</li>
+</ol>
+<ul>
+<li>运维职责</li>
+</ul>
+<ol>
+<li>应用程序监控</li>
+<li>数据备份（磁带，磁盘）</li>
+<li>优化</li>
+</ol>
+<h2 id="计算机硬件组成"><a href="#计算机硬件组成" class="headerlink" title="计算机硬件组成"></a>计算机硬件组成</h2><ul>
+<li>计算机一般分为 PC 和服务器</li>
+<li>服务器可以按照尺寸（1U=4.45cm 厚）来分类，外形分类（机架式、刀片式、塔式），云主机（阿里云，腾讯云）</li>
+</ul>
+<h3 id="计算机硬件-5-大组成部分"><a href="#计算机硬件-5-大组成部分" class="headerlink" title="计算机硬件 5 大组成部分"></a>计算机硬件 5 大组成部分</h3><blockquote>
+<p>计算机的所有组成都是模仿人类的某一器官或者功能去设计的</p>
+</blockquote>
+<ol>
+<li>控制器（大脑）</li>
+</ol>
+<ul>
+<li>计算机的指挥系统，负责控制所有其他硬件的运行</li>
+</ul>
+<ol start="2">
+<li>运算器（大脑）</li>
+</ol>
+<ul>
+<li>负责数学运算与逻辑运算（判断）</li>
+</ul>
+<blockquote>
+<p>控制器+运算器 =&gt; cpu 中央处理器</p>
+</blockquote>
+<ul>
+<li>cpu：32 位 （cpu 从内存里一次性取 32 位二进制数当成一条完整的指令）</li>
+<li>cpu：64 位 （cpu 从内存里一次性取 64 位二进制数当成一条完整的指令）</li>
+<li>cpu 具有向下兼容性</li>
+<li>cpu：<code>x86-64</code><ul>
+<li>x86 指 cpu 的型号（复杂指令集）</li>
+<li>64 表示 64 位</li>
+</ul>
+</li>
+<li>cpu 内部有自己的 指令集，不会自己运行，以供我们来调用，进而来操纵其他的硬件</li>
+<li>cpu 运行我们内存程序（进程）的步骤：从内存取址-&gt;解码-&gt;控制单元-&gt;运算单元（数据）/存储单元（寄存器）-&gt;寄存器（缓存）-&gt;内存-&gt;硬盘</li>
+<li>图解<img src="/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/cpu.png" class title="cpu"></li>
+<li>进程表示程序（指令集和数据集）已经从硬盘读到内存里运行了</li>
+<li>多线程和多核芯片<ul>
+<li>多核表示相当于多个 cpu</li>
+<li>线程表示一个流水线，多线程表示一个核里有多个线程</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>存储器</li>
+</ol>
+<ul>
+<li><p>用来存取数据</p>
+</li>
+<li><p>内存：（主存）基于电存取数据（存放高低电平信号），断电数据全部丢失，用于临时存储数据（cpu 运行程序时产生的数据），存取速度快（模仿大脑的记忆功能）</p>
+</li>
+<li><p>RAM 主存 =&gt; 内存</p>
+</li>
+<li><p>ROM 只读内存，存取速度与内存一样，只能用于读，断电数据不丢失（BIOS 系统—— 基本的输入输出操作系统）</p>
+</li>
+<li><p>CMOS：易丢失的，保持当前时间和日期，存放 BIOS 里操作产生的数据，主板电池失效时，会丢失，BIOS 会恢复出厂设置</p>
+<ul>
+<li>buffer</li>
+<li>cache</li>
+</ul>
+</li>
+<li><p>外存：基于磁盘存取数据断电数据仍然在，保存时间长，存取速度慢（记事本）——决定软件启动速度</p>
+<ul>
+<li>磁带，磁盘</li>
+<li>硬盘接口 IDE、SATA、SAS</li>
+<li>机械硬盘，固态硬盘 SSD- 依赖电子存取数据</li>
+<li>机械磁盘：硬盘的最小读写单位是一个扇区——512bytes，操作系统读写的最小单位就是一个 block 块-&gt;8 扇区的大小-&gt;4k</li>
+<li>I/O 设备一般包括设备控制器和设备本身<ul>
+<li>控制器是查找主板上的一块芯片或一组芯片，负责控制连接的设备，从操作系统接受命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>虚拟内存</p>
+</li>
+</ul>
+<blockquote>
+<p>buffer 缓冲区里存放了 n 个操作系统的 block 块，每个 block 块里存放了 8 个扇区</p>
+</blockquote>
+<ol start="4">
+<li>输入设备</li>
+</ol>
+<ul>
+<li>输入设备的任务就是把人们编好的程序和原始数据推送到计算机中，并且将他们转换成计算机内存所能识别和接受的信息方式，</li>
+<li>键盘、鼠标</li>
+</ul>
+<ol start="5">
+<li>输出设备</li>
+</ol>
+<ul>
+<li>输出设备的任务是将计算机的处理结果以人或其他设备所能接受的形式送出计算机。</li>
+<li>显示器、打印机</li>
+</ul>
+<h3 id="程序运行过程"><a href="#程序运行过程" class="headerlink" title="程序运行过程"></a>程序运行过程</h3><ol>
+<li>程序编写/安装软件-&gt;硬盘（存放）</li>
+<li>程序运行前加载-&gt;程序的代码/数据从硬盘读入内存</li>
+<li>内存-&gt;cpu 读取指令运行</li>
+</ol>
+<ul>
+<li>安装软件的多少取决于硬盘的大小</li>
+<li>计算机能同时运行多少个软件取决于内存的大小</li>
+</ul>
+<h3 id="计算机启动流程"><a href="#计算机启动流程" class="headerlink" title="计算机启动流程"></a>计算机启动流程</h3><p>1.计算机加电</p>
+<p>2.BIOS 开始运行，检测硬件：cpu、内存、硬盘等</p>
+<p>3.BIOS 读取 CMOS 存储器中的参数，选择启动设备</p>
+<p>4.从启动设备上读取第一个扇区的内容（MBR 主引导记录 512 字节，前 446 为引导信息，后 64 为分区信息，最后两个为标志位）</p>
+<p>5.根据分区信息读入 bootloader 启动装载模块，启动操作系统</p>
+<p>6.然后操作系统询问 BIOS，以获得配置信息。对于每种设备，系统会检查其设备驱动程序是否存在，如果没有，系统则会要求用户按照设备驱动程序。一旦有了全部的设备驱动程序，操作系统就将它们调入内核。然后初始有关的表格（如进程表），穿件需要的进程，并在每个终端上启动登录程序或 GUI</p>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/计算机的组成.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">计算机的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">计算机基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">程序开发流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90"><span class="toc-number">1.3.</span> <span class="toc-text">计算机硬件组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6-5-%E5%A4%A7%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">1.3.1.</span> <span class="toc-text">计算机硬件 5 大组成部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">程序运行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">计算机启动流程</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&text=计算机的组成"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&is_video=false&description=计算机的组成"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机的组成&body=Check out this article: https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&title=计算机的组成"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&name=计算机的组成&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/&t=计算机的组成"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
