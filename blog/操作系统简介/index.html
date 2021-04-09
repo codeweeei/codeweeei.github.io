@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="操作系统简介操作系统的基础为什么要有操作系统 程序员无法把所有的硬件操作细节都了解清楚，管理这些硬件并且加以优化是一件非常繁琐的工作，而这个繁琐的工作就是操作系统的工作，程序员只需要考虑自己的应用软件的编写就可以了，利用应用软件来直接使用操作系统提供的功能来间接使用硬件  什么是操作系统 操作系统就是一个协调、管理和控制计算机硬件资源的软件资源的控制程序（软件） 操作系统位于计算机硬件与应用软件之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统简介">
+<meta property="og:url" content="https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="操作系统简介操作系统的基础为什么要有操作系统 程序员无法把所有的硬件操作细节都了解清楚，管理这些硬件并且加以优化是一件非常繁琐的工作，而这个繁琐的工作就是操作系统的工作，程序员只需要考虑自己的应用软件的编写就可以了，利用应用软件来直接使用操作系统提供的功能来间接使用硬件  什么是操作系统 操作系统就是一个协调、管理和控制计算机硬件资源的软件资源的控制程序（软件） 操作系统位于计算机硬件与应用软件之">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-09T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-09T02:31:28.742Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>操作系统简介</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&text=操作系统简介"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&is_video=false&description=操作系统简介"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统简介&body=Check out this article: https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&name=操作系统简介&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&t=操作系统简介"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">操作系统简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">操作系统的基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么要有操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.3.</span> <span class="toc-text">操作系统的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E6%99%AE%E9%80%9A%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.4.</span> <span class="toc-text">操作系统与普通软件的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%91%E5%B1%95"><span class="toc-number">1.1.5.</span> <span class="toc-text">操作系统的发展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">进程与线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E8%BF%90%E8%A1%8C%E7%9A%84%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.1.</span> <span class="toc-text">一个任务运行的三种状态</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        操作系统简介
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-09T00:00:00.000Z" itemprop="datePublished">2021-04-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="操作系统简介"><a href="#操作系统简介" class="headerlink" title="操作系统简介"></a>操作系统简介</h1><h2 id="操作系统的基础"><a href="#操作系统的基础" class="headerlink" title="操作系统的基础"></a>操作系统的基础</h2><h3 id="为什么要有操作系统"><a href="#为什么要有操作系统" class="headerlink" title="为什么要有操作系统"></a>为什么要有操作系统</h3><ul>
+<li>程序员无法把所有的硬件操作细节都了解清楚，管理这些硬件并且加以优化是一件非常繁琐的工作，而这个繁琐的工作就是操作系统的工作，程序员只需要考虑自己的应用软件的编写就可以了，利用应用软件来直接使用操作系统提供的功能来间接使用硬件</li>
+</ul>
+<h3 id="什么是操作系统"><a href="#什么是操作系统" class="headerlink" title="什么是操作系统"></a>什么是操作系统</h3><ul>
+<li>操作系统就是一个协调、管理和控制计算机硬件资源的软件资源的控制程序（软件）</li>
+<li>操作系统位于计算机硬件与应用软件之间，本质也是一个软件。</li>
+<li>操作系统的组成<ul>
+<li>操作系统的内核（运行于内核态，管理硬件资源）</li>
+<li>系统调用（运行于用户态，为应用程序员写的应用程序提供系统调用接口）</li>
+</ul>
+</li>
+</ul>
+<h3 id="操作系统的功能"><a href="#操作系统的功能" class="headerlink" title="操作系统的功能"></a>操作系统的功能</h3><ul>
+<li>隐藏了丑陋的硬件调用接口，为应用程序员提供调用硬件资源的更好、更简单、更清晰的模型（系统调用接口）<ul>
+<li>比如操作系统提供了文件这个抽象概念，对文件的操作就是对磁盘的操作，有了文件我们无需再去考虑关于磁盘的读写控制（比如控制磁盘转动，移动磁头读写数据等细节</li>
+</ul>
+</li>
+<li>将应用程序对硬件资源的竞态请求变得有序化<ul>
+<li>例如很多应用软件其实是共享一套计算机硬件，比方说有可能有三个应用程序同时需要申请打印机来输出内容，那么 a 程序竞争到了打印机资源就打印，然后可能是 b 竞争到打印机资源，也可能是 c，这就导致了无序，打印机可能打印一段 a 的内容然后又去打印 c…,操作系统的一个功能就是将这种无序变得有序。</li>
+</ul>
+</li>
+<li>操作系统优化的基本原则<ul>
+<li>针对读操作：数据能从内存取就不要从硬盘取</li>
+<li>针对写操作：在内存中攒一波再写入硬盘</li>
+</ul>
+</li>
+</ul>
+<h3 id="操作系统与普通软件的区别"><a href="#操作系统与普通软件的区别" class="headerlink" title="操作系统与普通软件的区别"></a>操作系统与普通软件的区别</h3><ul>
+<li>主要区别是普通软件可以被用户修改，而操作系统由硬件保护，不能被用户修改</li>
+</ul>
+<h3 id="操作系统的发展"><a href="#操作系统的发展" class="headerlink" title="操作系统的发展"></a>操作系统的发展</h3><ol>
+<li>第一代计算机（真空管）</li>
+</ol>
+<ul>
+<li>特点：没有操作系统的概念，所有程序设计都是直接操控硬件电路</li>
+<li>优点：程序员独享计算机资源，可以即时地调试自己的程序</li>
+<li>缺点：浪费计算机资源（昂贵），一段时间只能一个人用</li>
+</ul>
+<ol start="2">
+<li>第二代计算机（晶体管，批处理）</li>
+</ol>
+<ul>
+<li>批处理系统：三台机器（代码转成磁带 IO-&gt;运算-&gt;打印机输出）</li>
+<li>特点：把一堆人的输入攒成一大波输入，把一堆人的输出结果攒成一波来输出</li>
+<li>优点：充分利用了计算机资源</li>
+<li>缺点：按照顺序来执行，没有并发，称为串行，整个过程需要人工参与，对程序员的发展不好，不能及时排错，程序的运行是串行的</li>
+</ul>
+<ol start="3">
+<li>第三代计算机（集成电路芯片和多道程序设计）————现代服务器的前身</li>
+</ol>
+<ul>
+<li>多道技术：将 IO、运算集成在小规模的芯片集成电路上，减少了很多厂商的成本</li>
+<li>串行：多个任务一个运行完毕再运行下一个</li>
+<li>并发：多个任务看起来是同时运行的<ul>
+<li>空间上的复用：多道在运行前先加载到内存中，保证 cpu 的快速取址</li>
+<li>时间上的复用：多个任务复用 cpu 的时间片，cpu 在多个程序之间快速切换（受操作系统控制）<ul>
+<li>当任务遇到 IO 了，肯定会切换</li>
+<li>当任务没有遇到 IO 但是占用 cpu 的时间过长，也会切换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>并发的效率不一定比串行的效率高</li>
+<li>多道技术产生的背景：cpu 在执行一个任务的过程中，若需要操作硬盘，则发送操作硬盘的指令，指令一旦发出，硬盘上的机械手臂滑动读取数据到内存中，这一段时间，cpu 需要等待，时间可能很短，但对于 cpu 来说已经很长很长，长到可以让 cpu 做很多其他的任务，如果我们让 cpu 在这段时间内切换到去做其他的任务，这样 cpu 不就充分利用了吗。这正是多道技术产生的技术背景</li>
+<li>当实现进程之间的物理隔离之后，分时操作系统（CTTS）出现了：多用户多任务，应用多道技术实现多个任务的并发的实现</li>
+</ul>
+<h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><ul>
+<li>进程是操作系统最核心的概念，进程所占用的内存空间是互相隔离的（物理隔离），如果不隔离的话会导致不安全性以及不稳定性</li>
+<li>进程过程：操作系统控制调硬件（硬盘，cpu）来运行程序的过程</li>
+<li>进程：资源单位——操作系统对于程序运行时资源相关<ul>
+<li>申请内存空间-&gt;存放数据资源-&gt;运行程序整个流程</li>
+<li>一个进程里可以有多条线程，多个线程共享同一个进程里的数据资源</li>
+</ul>
+</li>
+<li>线程：执行单位——操作系统对于程序运行时代码执行相关<ul>
+<li>运行程序的过程</li>
+</ul>
+</li>
+<li>比喻：操作系统相当于一个工厂，里面可以执行多个进程（开了多个车间），每个进程存放不同的程序运行时的资源（物料），每个进程（车间）里面有多个线程（流水线）</li>
+</ul>
+<h3 id="一个任务运行的三种状态"><a href="#一个任务运行的三种状态" class="headerlink" title="一个任务运行的三种状态"></a>一个任务运行的三种状态</h3><ul>
+<li>操作系统操控 cpu 来运行任务</li>
+<li>运行态</li>
+<li>就绪态<ul>
+<li>前两者被称为非阻塞态</li>
+</ul>
+</li>
+<li>阻塞态</li>
+<li>运行态-&gt;就绪态 ：操作系统认为任务占用时间过长，或者是有优先级更高的任务抢走了 cpu</li>
+<li>就绪态-&gt;运行态：操作系统重新分配给该任务 cpu 执行权限</li>
+<li>运行态-&gt;阻塞态：任务当碰到 IO 操作（硬盘读取）时</li>
+<li>阻塞态-&gt;就绪态：IO 操作执行完毕</li>
+</ul>
+<blockquote>
+<p>提升运行效率：降低 IO 操作，增加就绪态</p>
+</blockquote>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/操作系统简介.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">操作系统简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">操作系统的基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么要有操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.3.</span> <span class="toc-text">操作系统的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8E%E6%99%AE%E9%80%9A%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.4.</span> <span class="toc-text">操作系统与普通软件的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%91%E5%B1%95"><span class="toc-number">1.1.5.</span> <span class="toc-text">操作系统的发展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">进程与线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E8%BF%90%E8%A1%8C%E7%9A%84%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.1.</span> <span class="toc-text">一个任务运行的三种状态</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&text=操作系统简介"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&is_video=false&description=操作系统简介"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=操作系统简介&body=Check out this article: https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&title=操作系统简介"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&name=操作系统简介&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B/&t=操作系统简介"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
