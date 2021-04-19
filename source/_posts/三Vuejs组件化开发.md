@@ -209,6 +209,7 @@ const app = new Vue({
   - 使用场景：在一个页面中，从服务器里获取了很多数据，通常不会在页面中的大组件进行显示这些数据，而是通过将获取到的数据传给下面的子组件进行显示。
   - 通过 <b style="color:skyblue">props</b> 向子组件传递数据
   - 使用方式：父组件调用子组件时使用 v-bind 传递数据，子组件使用 props 接收父组件传递的数据
+  - 传递静态或动态 prop，可以使用`v-bind`来动态传递，注意当传入一个数字、布尔值、数组、对象时都应该使用`v-bind`语法来告诉 vue 这是一个 JavaScript 表达式而不是一个字符串
   - props 的值有两种形式：
 
     - 形式一：字符串数组，数组中的字符串就是传递时的名称(用的少)。
@@ -243,7 +244,7 @@ const app = new Vue({
             required: false,
           }
           cmessage: {
-            //类型限制
+            //类型限制（prop验证）
             type: String,
             //设置默认值，父组件不传时就默认有的
             default: "aaaaa",
@@ -256,6 +257,8 @@ const app = new Vue({
     ```
 
   - props 中的驼峰标识：当 props 用驼峰标识符时，v-bind 不建议使用驼峰标识符，可以在中间加个<b style="color:pink"> - </b>来连接；
+  - 不应该在子组件内部改变 prop，可以在子组件中定义 data 来接收存储 prop 或者 computed 里对传来的 prop 进行一定的初始化
+  - 注意在 JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变变更这个对象或数组本身将会影响到父组件的状态。
 
 - <b style="color:pink">子传父</b>
 
