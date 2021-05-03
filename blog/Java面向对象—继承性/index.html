@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Java 面向对象继承性 extends 当两种类中有相似的属性及方法，通过继承的关系可以实现类中复用继承对象的属性和方法  继承性的好处 减少代码的冗余，提高了复用性 便于功能的扩展（将子类共有的功能放在父类里进行继承）  继承性的使用 语法：public class A extends B&amp;#123;...&amp;#125; A：子类、派生类、subclass B：父类、超类、基类、supercla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面向对象——继承性">
+<meta property="og:url" content="https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="Java 面向对象继承性 extends 当两种类中有相似的属性及方法，通过继承的关系可以实现类中复用继承对象的属性和方法  继承性的好处 减少代码的冗余，提高了复用性 便于功能的扩展（将子类共有的功能放在父类里进行继承）  继承性的使用 语法：public class A extends B&amp;#123;...&amp;#125; A：子类、派生类、subclass B：父类、超类、基类、supercla">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-03T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-03T09:12:52.057Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="继承性">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Java面向对象——继承性</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/%E5%B0%81%E8%A3%85%E8%AE%A1%E7%AE%97%E4%B8%A4%E5%A4%A9%E6%97%A5%E6%9C%9F%E7%9B%B8%E5%B7%AE%E5%A4%A9%E6%95%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&text=Java面向对象——继承性"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&is_video=false&description=Java面向对象——继承性"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java面向对象——继承性&body=Check out this article: https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&name=Java面向对象——继承性&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&t=Java面向对象——继承性"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BB%A7%E6%89%BF%E6%80%A7-extends"><span class="toc-number">1.</span> <span class="toc-text">Java 面向对象继承性 extends</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">1.1.</span> <span class="toc-text">继承性的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">继承性的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E8%A7%84%E5%AE%9A"><span class="toc-number">1.3.</span> <span class="toc-text">Java 中关于继承性的规定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E5%86%99-override-overwrite"><span class="toc-number">1.4.</span> <span class="toc-text">方法的重写 override&#x2F;overwrite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#protected-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.5.</span> <span class="toc-text">protected 权限修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#super-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.6.</span> <span class="toc-text">super 关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">子类对象实例化的过程</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java面向对象——继承性
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-03T00:00:00.000Z" itemprop="datePublished">2021-05-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E7%BB%A7%E6%89%BF%E6%80%A7/" rel="tag">继承性</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Java-面向对象继承性-extends"><a href="#Java-面向对象继承性-extends" class="headerlink" title="Java 面向对象继承性 extends"></a>Java 面向对象继承性 extends</h2><ul>
+<li>当两种类中有相似的属性及方法，通过继承的关系可以实现类中复用继承对象的属性和方法</li>
+</ul>
+<h3 id="继承性的好处"><a href="#继承性的好处" class="headerlink" title="继承性的好处"></a>继承性的好处</h3><ul>
+<li>减少代码的冗余，提高了复用性</li>
+<li>便于功能的扩展（将子类共有的功能放在父类里进行继承）</li>
+</ul>
+<h3 id="继承性的使用"><a href="#继承性的使用" class="headerlink" title="继承性的使用"></a>继承性的使用</h3><ul>
+<li>语法：<code>public class A extends B&#123;...&#125;</code></li>
+<li>A：子类、派生类、subclass</li>
+<li>B：父类、超类、基类、superclass</li>
+<li>体现：<ul>
+<li>一旦子类继承父类 B 以后，子类 A 中就获取了父类 B 中声明的结构（所有属性、方法），注意私有结构还是有原来的封装性</li>
+<li>子类继承父类之后，还能定义自己特有的属性和方法，实现功能的扩展</li>
+</ul>
+</li>
+</ul>
+<h3 id="Java-中关于继承性的规定"><a href="#Java-中关于继承性的规定" class="headerlink" title="Java 中关于继承性的规定"></a>Java 中关于继承性的规定</h3><ul>
+<li><p>Java 只支持单继承和多层继承</p>
+<ul>
+<li>一个类可以有多个子类继承：<code>一个父亲可以有多个儿子</code></li>
+<li>一个类只能有一个类：<code>一个儿子只能有一个父亲</code></li>
+<li>父类上面还能有父类：<code>A（间接父类）-&gt;B（直接父类）-&gt;C（子类）...</code></li>
+</ul>
+</li>
+<li><p>所有类继承（直接继承或间接继承）于 <code>java.lang.Object</code> 类，意味着所有 Java 类都具有 Object 类声明的功能</p>
+</li>
+</ul>
+<h3 id="方法的重写-override-overwrite"><a href="#方法的重写-override-overwrite" class="headerlink" title="方法的重写 override/overwrite"></a>方法的重写 override/overwrite</h3><ul>
+<li>定义：在子类中可以根据需要对父类中继承来的方法进行改造，也称为方法的重置、覆盖</li>
+<li>重写以后，当实例化子类对象以后，通过子类对象调用子类中的同名同参的方法时，实际执行的是子类重写父类的方法</li>
+<li>规定<ul>
+<li>方法的声明：<code>权限修饰符 返回值类型 方法名（形参列表） throws 异常的类型&#123;...&#125;</code></li>
+<li>两者的方法名和形参列表得一样</li>
+<li>子类覆盖父类方法的权限修饰符不能小于父类被重写的方法的权限修饰符<ul>
+<li>特殊情况：子类中不能重写父类中声明为 private 的权限方法</li>
+</ul>
+</li>
+<li>返回值类型<ul>
+<li>父类被重写的方法返回值为 void，子类重写的方法返回值也为 void</li>
+<li>父类被重写的方法返回值为 A 类，子类重写的方法返回值为 A 类或者 A 类的子类</li>
+<li>父类被重写的方法返回值为基本数据类型，子类重写的方法返回值为相同的基本数据类型</li>
+<li>子类重写的方法抛出的异常类型不大于父类被重写的方法抛出的异常类型</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子类和父类中的同名同参数的方法要么都声明为非 static（可考虑重写），要么都声明为 static 的</li>
+</ul>
+<h3 id="protected-权限修饰符"><a href="#protected-权限修饰符" class="headerlink" title="protected 权限修饰符"></a>protected 权限修饰符</h3><ul>
+<li>权限比缺省更大，比 public 更小</li>
+<li>修饰的可在不同包的子类下访问</li>
+</ul>
+<h3 id="super-关键字"><a href="#super-关键字" class="headerlink" title="super 关键字"></a>super 关键字</h3><ul>
+<li>super 理解为父类的，可以用来调用属性、方法、构造器</li>
+<li>this 在继承里的使用，在子类的方法或构造器里使用 <code>this.xxx</code> 可以取 xxx 属性或方法（先在子类里取，没取到再去继承的父类里取）</li>
+<li>super 调用属性和方法<ul>
+<li>为了区分子父类里同名同类的属性</li>
+<li>当子类和父类里有同名同类的属性时，当子类实例化时会在堆空间同时开辟两个空间存放，使用 this 取子类属性，使用 super 取继承父类的同名属性</li>
+<li>当子类重写了父类中的方法之后，想在子类中调用父类中被重写的方法时，必须使用 super 显式调用父类中被重写的方法</li>
+</ul>
+</li>
+<li>super 调用构造器<ul>
+<li>可以在子类的构造器中显式的使用<code>super(形参列表)</code>来调用父类中声明指定的构造器</li>
+<li><code>super(形参列表)</code>必须声明在子类构造器的首行，故在类的构造器，<code>this(形参列表)</code>和<code>super(形参列表)</code>只能二选一</li>
+<li>在子类的构造器没有显式的声明则会默认调用<code>super()</code>父类空参构造器</li>
+<li>在类的多个构造器中，至少有一个构造器调用了<code>super()</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="子类对象实例化的过程"><a href="#子类对象实例化的过程" class="headerlink" title="子类对象实例化的过程"></a>子类对象实例化的过程</h3><ul>
+<li>结果上看：（继承性）<ul>
+<li>子类继承父类之后，就获取了父类中声明的属性或方法</li>
+<li>创建子类的对象，在堆空间里，就会加载所有父类中声明的属性</li>
+</ul>
+</li>
+<li>过程上看：<ul>
+<li>通过子类的构造器创建子类对象时，一定会直接或间接的调用父类的构造器，进而再调用父类的构造器。。。直到<code>java.lang.Object</code>类空参的构造器</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/Java面向对象—继承性.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BB%A7%E6%89%BF%E6%80%A7-extends"><span class="toc-number">1.</span> <span class="toc-text">Java 面向对象继承性 extends</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">1.1.</span> <span class="toc-text">继承性的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">继承性的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%BB%A7%E6%89%BF%E6%80%A7%E7%9A%84%E8%A7%84%E5%AE%9A"><span class="toc-number">1.3.</span> <span class="toc-text">Java 中关于继承性的规定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E5%86%99-override-overwrite"><span class="toc-number">1.4.</span> <span class="toc-text">方法的重写 override&#x2F;overwrite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#protected-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.5.</span> <span class="toc-text">protected 权限修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#super-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.6.</span> <span class="toc-text">super 关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">子类对象实例化的过程</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&text=Java面向对象——继承性"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&is_video=false&description=Java面向对象——继承性"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java面向对象——继承性&body=Check out this article: https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&title=Java面向对象——继承性"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&name=Java面向对象——继承性&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/&t=Java面向对象——继承性"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
