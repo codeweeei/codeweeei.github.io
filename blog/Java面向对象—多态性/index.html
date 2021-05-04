@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Java 面向对象——多态性多态性的理解 多态性可以理解为一个事物的多种形态 对象的多态性：父类的引用指向子类的对象（子类的对象赋给父类），假设 Man 继承于 Person Person p1 &#x3D; new Man();  多态的使用 当调用子父类同名同参数的方法时，实际执行的是子类重写父类的方法–虚拟方法调用 注意虚拟方法调用在编译期是无法确定的   编译期：只能调用父类中声明的方法，即不能调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面向对象——多态性">
+<meta property="og:url" content="https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="Java 面向对象——多态性多态性的理解 多态性可以理解为一个事物的多种形态 对象的多态性：父类的引用指向子类的对象（子类的对象赋给父类），假设 Man 继承于 Person Person p1 &#x3D; new Man();  多态的使用 当调用子父类同名同参数的方法时，实际执行的是子类重写父类的方法–虚拟方法调用 注意虚拟方法调用在编译期是无法确定的   编译期：只能调用父类中声明的方法，即不能调用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-04T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-04T05:58:50.705Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="多态性">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Java面向对象——多态性</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E7%BB%A7%E6%89%BF%E6%80%A7/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&text=Java面向对象——多态性"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&is_video=false&description=Java面向对象——多态性"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java面向对象——多态性&body=Check out this article: https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&name=Java面向对象——多态性&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&t=Java面向对象——多态性"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">Java 面向对象——多态性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%80%A7%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">多态性的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">多态的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%80%A7%E7%9A%84%E4%BD%BF%E7%94%A8%E5%89%8D%E6%8F%90"><span class="toc-number">1.3.</span> <span class="toc-text">多态性的使用前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E4%B8%8B%E8%BD%AC%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">向下转型的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Casting"><span class="toc-number">1.5.</span> <span class="toc-text">对象类型转换 Casting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceOf-%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">instanceOf 关键字的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%A6%E4%B8%8E-equals-%E6%96%B9%E6%B3%95"><span class="toc-number">1.7.</span> <span class="toc-text">&#x3D;&#x3D;符与 equals 方法</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java面向对象——多态性
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-04T00:00:00.000Z" itemprop="datePublished">2021-05-04</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%A4%9A%E6%80%81%E6%80%A7/" rel="tag">多态性</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Java-面向对象——多态性"><a href="#Java-面向对象——多态性" class="headerlink" title="Java 面向对象——多态性"></a>Java 面向对象——多态性</h2><h3 id="多态性的理解"><a href="#多态性的理解" class="headerlink" title="多态性的理解"></a>多态性的理解</h3><ul>
+<li>多态性可以理解为一个事物的多种形态</li>
+<li>对象的多态性：父类的引用指向子类的对象（子类的对象赋给父类），假设 Man 继承于 Person</li>
+<li><code>Person p1 = new Man();</code></li>
+</ul>
+<h3 id="多态的使用"><a href="#多态的使用" class="headerlink" title="多态的使用"></a>多态的使用</h3><ul>
+<li>当调用子父类同名同参数的方法时，实际执行的是子类重写父类的方法–虚拟方法调用<ul>
+<li>注意虚拟方法调用在编译期是无法确定的</li>
+</ul>
+</li>
+<li>编译期：只能调用父类中声明的方法，即不能调用子类独有的属性和方法，执行期执行的是子类重写父类的方法</li>
+<li>总结：<code>编译看左边，运行看右边</code></li>
+<li>对象多态性只适用于方法，不适用于属性</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Person P1 = <span class="keyword">new</span> Man();</span><br><span class="line">P1.eat();<span class="comment">//调用的是Man类重写了Person类的eat方法</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>作用：提高了代码的通用性，常称为接口重用</li>
+</ul>
+<h3 id="多态性的使用前提"><a href="#多态性的使用前提" class="headerlink" title="多态性的使用前提"></a>多态性的使用前提</h3><ul>
+<li>需要存在类的继承关系</li>
+<li>有方法的重写</li>
+</ul>
+<h3 id="向下转型的使用"><a href="#向下转型的使用" class="headerlink" title="向下转型的使用"></a>向下转型的使用</h3><ul>
+<li><code>Person p1 = new Man();</code>向上转型（多态）</li>
+<li>有了对象的多态性以后，内存中实际上是加载了子类特有的属性和方法，但是由于变量声明为父类类型，导致编译时，只能调用父类中声明的属性和方法，子类特有的属性方法不能调用，那如何才能调用子类特有的属性和方法？</li>
+<li>使用强制类型转换符</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Person p1 = <span class="keyword">new</span> Man();</span><br><span class="line">Man p2 = (Man)p1;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象类型转换-Casting"><a href="#对象类型转换-Casting" class="headerlink" title="对象类型转换 Casting"></a>对象类型转换 Casting</h3><ul>
+<li>基本数据类型转换<ul>
+<li>自动类型转换：小的数据类型可以自动转换为大的数据类型</li>
+<li>例如：<code>long g = 20</code></li>
+<li>强制类型转换：可以用大的数据类型强制转换成小的数据类型</li>
+<li>例如：<code>float f = (float)12.0</code></li>
+</ul>
+</li>
+<li>对 Java 对象的强制类型转换称为<span style="color:red"> 造型 </span><ul>
+<li>从子类到父类的类型转换可以自动进行</li>
+<li>从父类到子类的类型转换必须通过造型（强制类型转换）实现</li>
+<li>无继承关系的引用类型间的转换是非法的</li>
+<li>为了避免强制转型时出错，在造型前可以使用 instanceOf 来检验一个对象的类型</li>
+</ul>
+</li>
+</ul>
+<h3 id="instanceOf-关键字的使用"><a href="#instanceOf-关键字的使用" class="headerlink" title="instanceOf 关键字的使用"></a>instanceOf 关键字的使用</h3><ul>
+<li><code>x instanceOf A</code>：检验 x 是否为类 A 的对象，返回值为 Boolean 类型</li>
+<li>x 为实例化的对象</li>
+<li>要求 x 所属的类与类 A 必须是子类和父类的关系，否则编译错误</li>
+<li>如果 x 属于类 A 的子类 B，<code>x instanceOf A</code> 的值也为 true</li>
+</ul>
+<h3 id="符与-equals-方法"><a href="#符与-equals-方法" class="headerlink" title="==符与 equals 方法"></a>==符与 equals 方法</h3><ul>
+<li><p>==符：</p>
+<ul>
+<li>基本类型比较值：只要两个变量的值相等，即为 true，需保证==符号两边的变量类型一致</li>
+<li>例：<code>int a = 5; if(a == 6)&#123;...&#125;</code></li>
+<li>引用类型比较引用（是否指向同一个对象）：只有指向同一个对象时，==才返回 true</li>
+</ul>
+</li>
+<li><p>equals：</p>
+<ul>
+<li>Object 类中定义的 equals 方法和==作用是相同的，比较引用值是否相等</li>
+<li>所有类都继承了 Object，也就获得了 equals（）方法，还可以重写</li>
+<li>只能比较引用类型，其作用与<code>==</code>相同，比较是否指向同一个对象</li>
+<li>格式：<code>obj1.equals(obj2);</code></li>
+<li>特例：当用 equals 方法进行比较时，对类 File、String、Date 及包装类来说，是比较类型及内容是否相同而不考虑引用的是否是同一个对象<ul>
+<li>原因，在这些类中重写了 Object 类的 equels 方法</li>
+</ul>
+</li>
+<li>任何情况下，<code>x.equals(null)</code>，永远返回是“false”； <code>x.equals(和 x 不同类型的对象)</code>永远返回是“false”</li>
+<li>自定义类重写 equals 方法，即让其比较两个对象的实体内容是否相同而不是比较两者的引用值</li>
+<li><pre><code class="java">@override
+public boolean equals(Object obj)&#123;
+    if(this == obj)&#123;
+      return true;
+    &#125;
+    if(obj instanceOf XXX)&#123;
+      XXX x = (XXX)obj;
+      //比较两个对象的每个属性是否相同
+    &#125;else&#123;
+      return false;
+    &#125;
+&#125;</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/Java面向对象—多态性.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">Java 面向对象——多态性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%80%A7%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">多态性的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">多态的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%80%A7%E7%9A%84%E4%BD%BF%E7%94%A8%E5%89%8D%E6%8F%90"><span class="toc-number">1.3.</span> <span class="toc-text">多态性的使用前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E4%B8%8B%E8%BD%AC%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">向下转型的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-Casting"><span class="toc-number">1.5.</span> <span class="toc-text">对象类型转换 Casting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceOf-%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">instanceOf 关键字的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%A6%E4%B8%8E-equals-%E6%96%B9%E6%B3%95"><span class="toc-number">1.7.</span> <span class="toc-text">&#x3D;&#x3D;符与 equals 方法</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&text=Java面向对象——多态性"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&is_video=false&description=Java面向对象——多态性"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java面向对象——多态性&body=Check out this article: https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&title=Java面向对象——多态性"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&name=Java面向对象——多态性&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E2%80%94%E5%A4%9A%E6%80%81%E6%80%A7/&t=Java面向对象——多态性"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
