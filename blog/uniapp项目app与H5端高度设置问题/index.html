@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="uniapp 项目 H5 端与 app 端高度设置问题app 端高度使用%失效 h5 端设置 page 高度  1234page &amp;#123;  width: 100%;  height: 100%;&amp;#125;   设置好以后在 H5 端生效，连接手机进行真机调试，page 高度失效，目前解决方案是给页面一个view class&#x3D;&quot;wrapper&quot;，然后再 css 中设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="uniapp项目app与H5端高度设置问题">
+<meta property="og:url" content="https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="uniapp 项目 H5 端与 app 端高度设置问题app 端高度使用%失效 h5 端设置 page 高度  1234page &amp;#123;  width: 100%;  height: 100%;&amp;#125;   设置好以后在 H5 端生效，连接手机进行真机调试，page 高度失效，目前解决方案是给页面一个view class&#x3D;&quot;wrapper&quot;，然后再 css 中设置">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-10T04:56:21.582Z">
+<meta property="article:modified_time" content="2021-05-10T04:56:21.582Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="uni-app常见Bug">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>uniapp项目app与H5端高度设置问题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/%E7%A7%BB%E5%8A%A8%E7%AB%AFrem%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/Java%E5%B8%B8%E8%A7%81%E5%85%B3%E9%94%AE%E5%AD%97static%E3%80%81final%E3%80%81abstract%E3%80%81interface/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&text=uniapp项目app与H5端高度设置问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&is_video=false&description=uniapp项目app与H5端高度设置问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=uniapp项目app与H5端高度设置问题&body=Check out this article: https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&name=uniapp项目app与H5端高度设置问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&t=uniapp项目app与H5端高度设置问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#uniapp-%E9%A1%B9%E7%9B%AE-H5-%E7%AB%AF%E4%B8%8E-app-%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">uniapp 项目 H5 端与 app 端高度设置问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#app-%E7%AB%AF%E9%AB%98%E5%BA%A6%E4%BD%BF%E7%94%A8-%E5%A4%B1%E6%95%88"><span class="toc-number">1.1.</span> <span class="toc-text">app 端高度使用%失效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#app-%E7%AB%AF%E4%B8%8E-H5-%E7%AB%AF-vh-%E9%AB%98%E5%BA%A6%E4%B8%8D%E5%90%8C"><span class="toc-number">1.2.</span> <span class="toc-text">app 端与 H5 端 vh 高度不同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD-ifdef"><span class="toc-number">1.3.</span> <span class="toc-text">解决方案：使用条件判断#ifdef</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        uniapp项目app与H5端高度设置问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-10T04:56:21.582Z" itemprop="datePublished">2021-05-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/uni-app/">uni-app</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/uni-app%E5%B8%B8%E8%A7%81Bug/" rel="tag">uni-app常见Bug</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="uniapp-项目-H5-端与-app-端高度设置问题"><a href="#uniapp-项目-H5-端与-app-端高度设置问题" class="headerlink" title="uniapp 项目 H5 端与 app 端高度设置问题"></a>uniapp 项目 H5 端与 app 端高度设置问题</h2><h3 id="app-端高度使用-失效"><a href="#app-端高度使用-失效" class="headerlink" title="app 端高度使用%失效"></a>app 端高度使用%失效</h3><ul>
+<li>h5 端设置 page 高度</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">page</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置好以后在 H5 端生效，连接手机进行真机调试，page 高度失效，目前解决方案是给页面一个<code>view class=&quot;wrapper&quot;</code>，然后再 css 中设置</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是使用 vh 就会出现另一个问题</p>
+</blockquote>
+<h3 id="app-端与-H5-端-vh-高度不同"><a href="#app-端与-H5-端-vh-高度不同" class="headerlink" title="app 端与 H5 端 vh 高度不同"></a>app 端与 H5 端 vh 高度不同</h3><ul>
+<li>H5 端中使用 vh 是整个可见区域的高度为 100vh</li>
+<li>app 端使用 vh 是减去顶部导航栏与底部 tabbar 的高度之后整个可见区域为 100vh</li>
+</ul>
+<h3 id="解决方案：使用条件判断-ifdef"><a href="#解决方案：使用条件判断-ifdef" class="headerlink" title="解决方案：使用条件判断#ifdef"></a>解决方案：使用条件判断#ifdef</h3><ul>
+<li>实例代码</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="comment">/* #ifdef H5 */</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="built_in">calc</span>(<span class="number">100vh</span> - <span class="number">88</span>rpx - <span class="number">100</span>rpx);</span><br><span class="line">  <span class="comment">/* #endif */</span></span><br><span class="line">  <span class="comment">/* #ifdef APP-PLUS */</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="comment">/* #endif */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/uniapp项目app与H5端高度设置问题.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#uniapp-%E9%A1%B9%E7%9B%AE-H5-%E7%AB%AF%E4%B8%8E-app-%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">uniapp 项目 H5 端与 app 端高度设置问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#app-%E7%AB%AF%E9%AB%98%E5%BA%A6%E4%BD%BF%E7%94%A8-%E5%A4%B1%E6%95%88"><span class="toc-number">1.1.</span> <span class="toc-text">app 端高度使用%失效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#app-%E7%AB%AF%E4%B8%8E-H5-%E7%AB%AF-vh-%E9%AB%98%E5%BA%A6%E4%B8%8D%E5%90%8C"><span class="toc-number">1.2.</span> <span class="toc-text">app 端与 H5 端 vh 高度不同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD-ifdef"><span class="toc-number">1.3.</span> <span class="toc-text">解决方案：使用条件判断#ifdef</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&text=uniapp项目app与H5端高度设置问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&is_video=false&description=uniapp项目app与H5端高度设置问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=uniapp项目app与H5端高度设置问题&body=Check out this article: https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&title=uniapp项目app与H5端高度设置问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&name=uniapp项目app与H5端高度设置问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/uniapp%E9%A1%B9%E7%9B%AEapp%E4%B8%8EH5%E7%AB%AF%E9%AB%98%E5%BA%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/&t=uniapp项目app与H5端高度设置问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
