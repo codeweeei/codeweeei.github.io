@@ -75,3 +75,18 @@ destroyed(){
   }
 </script>
 ```
+
+### 更换路由时清理定时器
+
+- 代码示例
+
+```js
+const timer = setInterval(() => {
+  // 某些定时器操作
+}, 5000)
+// 通过$once来监听定时器
+// 在beforeDestroy钩子触发时清除定时器后移除
+this.$once("hook:beforeDestroy", () => {
+  clearInterval(timer)
+})
+```
