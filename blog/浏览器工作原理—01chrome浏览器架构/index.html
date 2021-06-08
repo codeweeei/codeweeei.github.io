@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程 问：仅仅打开一个页面，为什么出现了 4 个进程？  进程和线程 在介绍进程和线程时需要先了解什么是并行处理  并行处理 计算机中的并行处理就是同一时刻处理多个任务，正常情况下我们可以将一个过程拆分为几个任务，使用单线程来处理就得一步一步按照顺序来执行任务，如果采用多线程，即可将不同种类的任务分配给不同线程来同时运行处理，这样并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器工作原理—01chrome浏览器架构">
+<meta property="og:url" content="https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="超威的博客">
+<meta property="og:description" content="01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程 问：仅仅打开一个页面，为什么出现了 4 个进程？  进程和线程 在介绍进程和线程时需要先了解什么是并行处理  并行处理 计算机中的并行处理就是同一时刻处理多个任务，正常情况下我们可以将一个过程拆分为几个任务，使用单线程来处理就得一步一步按照顺序来执行任务，如果采用多线程，即可将不同种类的任务分配给不同线程来同时运行处理，这样并">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-23T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-08T06:00:31.683Z">
+<meta property="article:author" content="codeweeei">
+<meta property="article:tag" content="chrome">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>浏览器工作原理—01chrome浏览器架构</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9402TCP%E5%8D%8F%E8%AE%AE/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/Java%E5%B8%B8%E8%A7%81%E5%85%B3%E9%94%AE%E5%AD%97static%E3%80%81final%E3%80%81abstract%E3%80%81interface/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&text=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&is_video=false&description=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浏览器工作原理—01chrome浏览器架构&body=Check out this article: https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&name=浏览器工作原理—01chrome浏览器架构&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&t=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#01-chrome-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%89%93%E5%BC%80%E4%B8%80%E4%B8%AA%E9%A1%B5%E9%9D%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E5%87%BA%E7%8E%B0-4-%E4%B8%AA%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">并行处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B-VS-%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">进程 VS 线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3"><span class="toc-number">1.2.</span> <span class="toc-text">单进程浏览器时代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">单进程浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.2.2.</span> <span class="toc-text">单进程浏览器的缺陷</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3"><span class="toc-number">1.3.</span> <span class="toc-text">多进程浏览器时代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A9%E6%9C%9F%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">早期多进程架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E4%BB%A3%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.2.</span> <span class="toc-text">现代多进程浏览器架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E5%BC%80%E5%A4%B4%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">解释开头问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        浏览器工作原理—01chrome浏览器架构
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">codeweeei</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-23T00:00:00.000Z" itemprop="datePublished">2021-05-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5/">浏览器工作原理与实践</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/chrome/" rel="tag">chrome</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="01-chrome-浏览器架构：打开一个页面为什么出现-4-个进程"><a href="#01-chrome-浏览器架构：打开一个页面为什么出现-4-个进程" class="headerlink" title="01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程"></a>01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程</h1><blockquote>
+<p>问：仅仅打开一个页面，为什么出现了 4 个进程？</p>
+</blockquote>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><ul>
+<li>在介绍进程和线程时需要先了解什么是并行处理</li>
+</ul>
+<h3 id="并行处理"><a href="#并行处理" class="headerlink" title="并行处理"></a>并行处理</h3><ul>
+<li>计算机中的并行处理就是同一时刻处理多个任务，正常情况下我们可以将一个过程拆分为几个任务，使用单线程来处理就得一步一步按照顺序来执行任务，如果采用多线程，即可将不同种类的任务分配给不同线程来同时运行处理，这样并行处理可大大提升性能</li>
+</ul>
+<h3 id="进程-VS-线程"><a href="#进程-VS-线程" class="headerlink" title="进程 VS 线程"></a>进程 VS 线程</h3><ul>
+<li>多线程可以并行处理任务，但是线程不能单独存在，需要由进程来启动和管理</li>
+<li>进程是一个程序的运行实例，详细解释就是，启动一个程序的时候，操作系统会为该程序创建一块内存，用来存放代码、运行中的数据和一个执行任务的主线程，我们把这样的一个运行环境叫进程</li>
+<li>进程和线程之间的关系</li>
+</ul>
+<ol>
+<li>进程中的任意一线程执行出错，就会导致整个进程的崩溃</li>
+<li>线程之间共享进程中的数据<ul>
+<li>线程之间可以对进程的公共数据进行读写操作</li>
+</ul>
+</li>
+<li>当一个进程关闭之后，操作系统会回收进程所占用的内存</li>
+<li>进程之间的内容相互隔离</li>
+</ol>
+<ul>
+<li>进程隔离是为保护操作系统中进程互不干扰的技术，每一个进程只能访问自己占有的数据，也就避免出现进程 A 写入数据到进程 B 的情况。正是因为程之间的数据是严格隔离的，所以一个进程如果崩溃了，或者挂起了，是不会影响到其他进的。如果进程之间需要进行数据的通信，这时候，就需要使用用于进程间通信（IPC）的制了。</li>
+</ul>
+<h2 id="单进程浏览器时代"><a href="#单进程浏览器时代" class="headerlink" title="单进程浏览器时代"></a>单进程浏览器时代</h2><h3 id="单进程浏览器"><a href="#单进程浏览器" class="headerlink" title="单进程浏览器"></a>单进程浏览器</h3><ul>
+<li>单进程浏览器是指浏览器的所有功能模块都是运行在同一个进程里，这些模块包含了网络、插件、JavaScript 运行环境、渲染引擎和页面等</li>
+<li>由于如此多的功能模块运行在一个进程里，是导致单进程浏览器不稳定、不流畅和不安全的一个主要因素</li>
+</ul>
+<h3 id="单进程浏览器的缺陷"><a href="#单进程浏览器的缺陷" class="headerlink" title="单进程浏览器的缺陷"></a>单进程浏览器的缺陷</h3><ul>
+<li>不稳定<ul>
+<li>早期浏览器需要借助于插件来实现诸如 Web 视频、Web 游戏等各种强大的功能，但是插件是最容易出问题的模块，并且还运行在浏览器进程之中，所以一个插件的意外崩溃会引起整个浏览器的崩溃</li>
+<li>除了插件之外，渲染引擎模块也是不稳定的，通常一些复杂的 JavaScript 代码就有可能引起渲染引擎模块的崩溃。和插件一样，渲染引擎的崩溃也会导致整个浏览器的崩溃</li>
+</ul>
+</li>
+<li>不流畅<ul>
+<li>所有页面的渲染模块、JavaScript 执行环境以及插件都是运行在同一个线程中的，这就意味着同一时刻只能有一个模块可以执行</li>
+<li>脚本或者插件会让单进程浏览器变卡顿外，页面的内存泄漏也是单进程变慢的一个重要原因。通常浏览器的内核都是非常复杂的，运行一个复杂点的页面再关闭页面，会存在内存不能完全回收的情况，这样导致的问题是使用时间越长，内存占用越高，浏览器会变得越慢</li>
+</ul>
+</li>
+<li>不安全<ul>
+<li>恶意插件可以直接获取到操作系统的任意资源，即控制我们的电脑，进而引发一系列的安全性问题</li>
+<li>页面脚本可以通过浏览器的漏洞来获取系统权限，这些脚本获取系统权限之后也可以对你的电脑做一些恶意的事情，同样也会引发安全问题</li>
+</ul>
+</li>
+</ul>
+<h2 id="多进程浏览器时代"><a href="#多进程浏览器时代" class="headerlink" title="多进程浏览器时代"></a>多进程浏览器时代</h2><h3 id="早期多进程架构"><a href="#早期多进程架构" class="headerlink" title="早期多进程架构"></a>早期多进程架构</h3><ul>
+<li>早期多进程 Chrome 的页面是运行在单独的渲染进程中的，同时页面里的插件也是运行在单独的插件进程之中，而进程之间是通过 IPC 机制进行通信</li>
+<li>解决不稳定问题：进程是相互隔离的，当页面的某个插件崩溃时，只会影响到当前页面进程或者插件进程，并不会影响到浏览器和其他页面</li>
+<li>解决不流畅问题：JavaScript 也是运行在渲染进程中的，所以即使 JavaScript 阻塞了渲染进程，影响到的也只是当前的渲染页面，而并不会影响浏览器和其他页面，因为其他页面的脚本是运行在它们自己的渲染进程中的。所以当我们再在 Chrome 中运行上面那个死循环的脚本时，没有响应的仅仅是当前的页面。对于内存泄漏的解决方法那就更简单了，因为当关闭一个页面时，整个渲染进程也会被关闭，之后该进程所占用的内存都会被系统回收，这样就轻松解决了浏览器页面的内存泄漏问题</li>
+<li>解决安全问题：采用多进程架构的额外好处是可以使用安全沙箱，你可以把沙箱看成是操作系统给进程上了一把锁，沙箱里面的程序可以运行，但是不能在你的硬盘上写入任何数据，也不能在敏感位置读取任何数据，例如你的文档和桌面。Chrome 把插件进程和渲染进程锁在沙箱里面，这样即使在渲染进程或者插件进程里面执行了恶意程序，恶意程序也无法突破沙箱去获取系统权限</li>
+</ul>
+<h3 id="现代多进程浏览器架构"><a href="#现代多进程浏览器架构" class="headerlink" title="现代多进程浏览器架构"></a>现代多进程浏览器架构</h3><ul>
+<li>最新的 Chrome 浏览器包括：1 个浏览器（Browser）主进程、1 个 GPU 进程、1 个网络（NetWork）进程、多个渲染进程和多个插件进程</li>
+<li>浏览器进程<ul>
+<li>主要负责界面显示、用户交互、子进程管理，同时提供存储等功能</li>
+</ul>
+</li>
+<li>渲染进程<ul>
+<li>核心任务是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，排版引擎 Blink 和 JavaScript 引擎 V8 都是运行在该进程中，默认情况下，Chrome 会为每个 Tab 标签创建一个渲染进程。出于安全考虑，渲染进程都是运行在沙箱模式下</li>
+</ul>
+</li>
+<li>GPU 进程<ul>
+<li>其实，Chrome 刚开始发布的时候是没有 GPU 进程的。而 GPU 的使用初衷是为了实现 3D CSS 的效果，只是随后网页、Chrome 的 UI 界面都选择采用 GPU 来绘制，这使得 GPU 成为浏览器普遍的需求。最后，Chrome 在其多进程架构上也引入了 GPU 进程</li>
+</ul>
+</li>
+<li>网络进程<ul>
+<li>主要负责页面的网络资源加载，之前是作为一个模块运行在浏览器进程里面的，直至最近才独立出来，成为一个单独的进程</li>
+</ul>
+</li>
+<li>插件进程<ul>
+<li>主要是负责插件的运行，因插件易崩溃，所以需要通过插件进程来隔离，以保证插件进程崩溃不会对浏览器和页面造成影响</li>
+</ul>
+</li>
+</ul>
+<h2 id="解释开头问题"><a href="#解释开头问题" class="headerlink" title="解释开头问题"></a>解释开头问题</h2><ul>
+<li>打开 1 个页面至少需要 1 个网络进程、1 个浏览器进程、1 个 GPU 进程以及 1 个渲染进程，如果打开的页面有运行插件的话，还需要再加上 1 个插件进程</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/codeweeei/codeweeei.github.io/edit/myblog/source/_posts/浏览器工作原理—01chrome浏览器架构.md" target="_blank">编辑</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#01-chrome-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%9A%E6%89%93%E5%BC%80%E4%B8%80%E4%B8%AA%E9%A1%B5%E9%9D%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E5%87%BA%E7%8E%B0-4-%E4%B8%AA%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">01 | chrome 浏览器架构：打开一个页面为什么出现 4 个进程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">并行处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B-VS-%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">进程 VS 线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3"><span class="toc-number">1.2.</span> <span class="toc-text">单进程浏览器时代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">单进程浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.2.2.</span> <span class="toc-text">单进程浏览器的缺陷</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3"><span class="toc-number">1.3.</span> <span class="toc-text">多进程浏览器时代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A9%E6%9C%9F%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">早期多进程架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E4%BB%A3%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.2.</span> <span class="toc-text">现代多进程浏览器架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E5%BC%80%E5%A4%B4%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">解释开头问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&text=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&is_video=false&description=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浏览器工作原理—01chrome浏览器架构&body=Check out this article: https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&title=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&name=浏览器工作原理—01chrome浏览器架构&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://codeweeei.github.io/blog/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E2%80%9401chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9E%B6%E6%9E%84/&t=浏览器工作原理—01chrome浏览器架构"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    codeweeei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
