@@ -1,7 +1,6 @@
 ---
 title: 移动端rem适配方案
-date:
-  "[object Object]": null
+date: 2021/5/14
 tags: [rem]
 categories: [移动端]
 ---

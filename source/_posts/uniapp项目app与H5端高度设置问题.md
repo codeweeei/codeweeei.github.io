@@ -1,7 +1,6 @@
 ---
 title: uniapp项目app与H5端高度设置问题
-date:
-  "[object Object]": null
+date: 2021/5/21
 tags: [uni-app常见Bug]
 categories: uni-app
 ---
